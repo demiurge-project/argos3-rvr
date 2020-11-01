@@ -7,13 +7,13 @@ if(ARGOS_BUILD_FOR_SIMULATOR)
   set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ARGOS_PREFIX}/share/argos3/cmake)
   include_directories(${ARGOS_INCLUDE_DIRS})
   link_directories(${ARGOS_LIBRARY_DIRS})
-elseif(ARGOS_BUILD_FOR_LOCALEPUCK)
+elseif(ARGOS_BUILD_FOR_LOCALRVR)
   find_package(PkgConfig)
-  pkg_check_modules(ARGOS REQUIRED argos3_localepuck)
+  pkg_check_modules(ARGOS REQUIRED argos3_localrvr)
   set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ARGOS_PREFIX}/share/argos3/cmake)
   include_directories(${ARGOS_INCLUDE_DIRS})
   link_directories(${ARGOS_LIBRARY_DIRS})
-elseif(ARGOS_BUILD_FOR_EPUCK)
+elseif(ARGOS_BUILD_FOR_RVR)
   include_directories(${ARGOS_INCLUDE_DIRS})
   link_directories(${ARGOS_LIBRARY_DIRS})
 endif()
@@ -21,12 +21,12 @@ endif()
 #
 # Check for Lua 5.3
 #
-IF(NOT ARGOS_BUILD_FOR_EPUCK)
+IF(NOT ARGOS_BUILD_FOR_RVR)
   find_package(Lua53)
   if(LUA53_FOUND)
     include_directories(${LUA_INCLUDE_DIR})
   endif(LUA53_FOUND)
-endif (NOT ARGOS_BUILD_FOR_EPUCK)
+endif (NOT ARGOS_BUILD_FOR_RVR)
 
 #
 # Check for Qt and OpenGL when compiling for the simulator
@@ -36,11 +36,11 @@ if(ARGOS_BUILD_FOR_SIMULATOR)
 endif(ARGOS_BUILD_FOR_SIMULATOR)
 
 #
-# Check for Qt when compiling for the local e-puck tools
+# Check for Qt when compiling for the local rvr tools
 #
-if(ARGOS_BUILD_FOR_LOCALEPUCK)
+if(ARGOS_BUILD_FOR_LOCALRVR)
   find_package(Qt5 COMPONENTS Widgets Gui)
-endif(ARGOS_BUILD_FOR_LOCALEPUCK)
+endif(ARGOS_BUILD_FOR_LOCALRVR)
 
 #
 # Check for PThreads

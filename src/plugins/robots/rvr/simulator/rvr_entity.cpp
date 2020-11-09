@@ -5,6 +5,9 @@
 
 #include "rvr_entity.h"
 
+#include <argos3/core/simulator/entity/controllable_entity.h>
+#include <argos3/core/simulator/entity/embodied_entity.h>
+
 namespace argos {
     const Real CRVREntity::BODY_HEIGHT = 0.114f;
     const Real CRVREntity::BODY_LENGTH = 0.1839f;

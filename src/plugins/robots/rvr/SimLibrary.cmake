@@ -21,11 +21,11 @@ set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
   # simulator/epuck_ircom_default_sensor.h
   # simulator/epuck_ground_rotzonly_sensor.h
   # simulator/epuck_rab_equipped_entity.h)
-# if(ARGOS_COMPILE_QTOPENGL)
-#    set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
-#      ${ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR}
-#     simulator/qtopengl_rvr.h
-# endif(ARGOS_COMPILE_QTOPENGL)
+if(ARGOS_COMPILE_QTOPENGL)
+   set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
+     ${ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR}
+    simulator/qtopengl_rvr.h)
+endif(ARGOS_COMPILE_QTOPENGL)
 
 # Install location for the RVR simulator headers
  install(
@@ -54,11 +54,11 @@ set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
 #   simulator/epuck_ircom_default_sensor.cpp
 #   simulator/epuck_ground_rotzonly_sensor.cpp
 #   simulator/epuck_rab_equipped_entity.cpp)
-# if(ARGOS_COMPILE_QTOPENGL)
-#   set(ARGOS3_SOURCES_PLUGINS_ROBOTS_EPUCK
-#     ${ARGOS3_SOURCES_PLUGINS_ROBOTS_EPUCK}
-#     simulator/qtopengl_epuck.cpp)
-# endif(ARGOS_COMPILE_QTOPENGL)
+if(ARGOS_COMPILE_QTOPENGL)
+  set(ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR
+    ${ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR}
+    simulator/qtopengl_rvr.cpp)
+endif(ARGOS_COMPILE_QTOPENGL)
 
 #
 # Create e-puck plugin
@@ -71,10 +71,10 @@ add_library(argos3plugin_${ARGOS_BUILD_FOR}_RVR SHARED
    argos3core_${ARGOS_BUILD_FOR}
    argos3plugin_${ARGOS_BUILD_FOR}_genericrobot
    argos3plugin_${ARGOS_BUILD_FOR}_dynamics2d)
-# if(ARGOS_COMPILE_QTOPENGL)
-#   target_link_libraries(argos3plugin_${ARGOS_BUILD_FOR}_epuck
-#     argos3plugin_${ARGOS_BUILD_FOR}_qtopengl)
-# endif(ARGOS_COMPILE_QTOPENGL)
+if(ARGOS_COMPILE_QTOPENGL)
+  target_link_libraries(argos3plugin_${ARGOS_BUILD_FOR}_RVR
+    argos3plugin_${ARGOS_BUILD_FOR}_qtopengl)
+endif(ARGOS_COMPILE_QTOPENGL)
 
 # # Install location for the e-puck plugin
  install(TARGETS argos3plugin_${ARGOS_BUILD_FOR}_RVR

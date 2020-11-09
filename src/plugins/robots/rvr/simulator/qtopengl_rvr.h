@@ -1,7 +1,7 @@
 /**
  * @file <argos3/plugins/robots/rvr/simulator/qtopengl_rvr.h>
  *
- * @author Raffaele Todesco - <rtodesco@ulb.be>
+ * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
 
 #ifndef QTOPENGL_EPUCK_H

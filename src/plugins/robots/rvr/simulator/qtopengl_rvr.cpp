@@ -1,6 +1,6 @@
 /**
  * @file <argos3/plugins/robots/rvr/simulator/qtopengl_rvr.cpp>
- * @author Raffaele Todesco - <rtodesco@ulb.be>
+ * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
 
 #include "qtopengl_rvr.h"

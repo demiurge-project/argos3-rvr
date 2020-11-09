@@ -1,6 +1,6 @@
 /**
  * @file <argos3/plugins/robots/rvr/simulator/rvr_entity.h>
- * @author Raffaele Todesco - <rtodesco@ulb.be>
+ * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
 
 #ifndef RVR_ENTITY_H

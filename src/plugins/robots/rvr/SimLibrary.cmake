@@ -3,7 +3,7 @@
 #
 # Headers
 set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
-  # simulator/dynamics2d_epuck_model.h
+  simulator/dynamics2d_rvr_model.h
   simulator/rvr_entity.h)
   # simulator/battery_equipped_entity.h
   # simulator/epuck_base_leds_default_actuator.h
@@ -36,7 +36,7 @@ endif(ARGOS_COMPILE_QTOPENGL)
  set(ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR
    ${ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR}
    ${ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR}
-#   simulator/dynamics2d_epuck_model.cpp
+   simulator/dynamics2d_rvr_model.cpp
    simulator/rvr_entity.cpp)
 #   simulator/battery_equipped_entity.cpp
 #   simulator/epuck_base_leds_default_actuator.cpp
@@ -64,20 +64,20 @@ endif(ARGOS_COMPILE_QTOPENGL)
 # Create e-puck plugin
 #
 # Create target
-add_library(argos3plugin_${ARGOS_BUILD_FOR}_RVR SHARED
+add_library(argos3plugin_${ARGOS_BUILD_FOR}_rvr SHARED
    ${ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR})
 # Link libraries
- target_link_libraries(argos3plugin_${ARGOS_BUILD_FOR}_RVR
+ target_link_libraries(argos3plugin_${ARGOS_BUILD_FOR}_rvr
    argos3core_${ARGOS_BUILD_FOR}
    argos3plugin_${ARGOS_BUILD_FOR}_genericrobot
    argos3plugin_${ARGOS_BUILD_FOR}_dynamics2d)
 if(ARGOS_COMPILE_QTOPENGL)
-  target_link_libraries(argos3plugin_${ARGOS_BUILD_FOR}_RVR
+  target_link_libraries(argos3plugin_${ARGOS_BUILD_FOR}_rvr
     argos3plugin_${ARGOS_BUILD_FOR}_qtopengl)
 endif(ARGOS_COMPILE_QTOPENGL)
 
 # # Install location for the e-puck plugin
- install(TARGETS argos3plugin_${ARGOS_BUILD_FOR}_RVR
+ install(TARGETS argos3plugin_${ARGOS_BUILD_FOR}_rvr
    RUNTIME DESTINATION bin
    LIBRARY DESTINATION lib/argos3
    ARCHIVE DESTINATION lib/argos3)

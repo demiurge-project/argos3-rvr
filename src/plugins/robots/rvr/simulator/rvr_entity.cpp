@@ -79,9 +79,10 @@ namespace argos {
         // no components to update for now
     }
 
+
     REGISTER_ENTITY(CRVREntity,
         "rvr",
-        "Raffaele Todesco [rtodesco@ulb.be]",
+        "Raffaele Todesco [raffaele.todesco@ulb.be]",
         "1.0",
         "The Sphero RVR robot.",
         "Sphero Description",

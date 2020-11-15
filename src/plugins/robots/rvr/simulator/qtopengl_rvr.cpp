@@ -11,20 +11,32 @@
 #include <argos3/plugins/simulator/visualizations/qt-opengl/qtopengl_widget.h>
 
 namespace argos {
+    /* Main body properties */
     static const Real BODY_HEIGHT = 0.114f;
     static const Real HALF_BODY_HEIGHT = BODY_HEIGHT * 0.5f;
     static const Real BODY_LENGTH = 0.1839f;
     static const Real HALF_BODY_LENGTH = BODY_LENGTH * 0.5f;
     static const Real BODY_WIDTH = 0.2159f;
     static const Real HALF_BODY_WIDTH = BODY_WIDTH * 0.5f;
-
     static const Real BODY_ELEVATION = 0.0f;
+    /* Wheel properties */
+    static const Real WHEEL_RADIUS = 0.041f;
+    static const Real WHEEL_WIDTH = 0.05f;
+    static const Real HALF_WHEEL_WIDTH = WHEEL_WIDTH * 0.5f;
+    static const Real HALF_INTERWHEEL_DISTANCE = HALF_BODY_WIDTH + HALF_WHEEL_WIDTH;
 
-    static const UInt8 RVR_COMPONENTS_NUMBER = 1; // only body for now
+    static const UInt8 RVR_COMPONENTS_NUMBER = 2; // only body for now
 
-    CQTOpenGLRVR::CQTOpenGLRVR() {
+    CQTOpenGLRVR::CQTOpenGLRVR() :
+        m_unVertices(40) {
         m_unLists = glGenLists(RVR_COMPONENTS_NUMBER);
         m_unBodyList = m_unLists;
+        m_unWheelList = m_unLists + 1;
+
+        /* Create the wheel display list */
+        glNewList(m_unWheelList, GL_COMPILE);
+        RenderWheel();
+        glEndList();
 
         /* Creates the body display list */
         glNewList(m_unBodyList, GL_COMPILE);
@@ -40,7 +52,28 @@ namespace argos {
     void CQTOpenGLRVR::Draw(CRVREntity& c_entity) {
         /* Place the body */
         glCallList(m_unBodyList);
+
+        /* Place the wheels */
         glPushMatrix();
+        glTranslatef(HALF_BODY_LENGTH, HALF_INTERWHEEL_DISTANCE, 0.0f);
+        glCallList(m_unWheelList);
+        glPopMatrix();
+
+        glPushMatrix();
+        glTranslatef(HALF_BODY_LENGTH, -HALF_INTERWHEEL_DISTANCE, 0.0f);
+        glCallList(m_unWheelList);
+        glPopMatrix();
+
+        glPushMatrix();
+        glTranslatef(-HALF_BODY_LENGTH, -HALF_INTERWHEEL_DISTANCE, 0.0f);
+        glCallList(m_unWheelList);
+        glPopMatrix();
+
+        glPushMatrix();
+        glTranslatef(-HALF_BODY_LENGTH, HALF_INTERWHEEL_DISTANCE, 0.0f);
+        glCallList(m_unWheelList);
+        glPopMatrix();
+
     }
 
     void CQTOpenGLRVR::SetWhitePlasticMaterial() {
@@ -54,16 +87,40 @@ namespace argos {
         glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, pfEmission);
     }
 
+    void CQTOpenGLRVR::SetGrayPlasticMaterial() {
+        const GLfloat pfColor[] = { 0.5f, 0.5f, 0.5f, 0.6f };
+        const GLfloat pfSpecular[] = { 0.1f, 0.1f, 0.1f, 1.0f };
+        const GLfloat pfShininess[] = { 20.0f };
+        const GLfloat pfEmission[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, pfColor);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, pfSpecular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, pfShininess);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, pfEmission);
+    }
+
+    void CQTOpenGLRVR::SetRedPlasticMaterial() {
+        const GLfloat pfColor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+        const GLfloat pfSpecular[] = { 0.9f, 0.9f, 0.9f, 1.0f };
+        const GLfloat pfShininess[] = { 100.0f };
+        const GLfloat pfEmission[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, pfColor);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, pfSpecular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, pfShininess);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, pfEmission);
+    }
+
     void CQTOpenGLRVR::RenderBody() {
         /* Set material */
-        SetWhitePlasticMaterial();
+        //SetWhitePlasticMaterial();
+        SetGrayPlasticMaterial();
+        //SetRedPlasticMaterial();
         /* Bottom face */
         glBegin(GL_QUADS);
         glNormal3f(0.0f, 0.0f, -1.0f);
-        glVertex3f(HALF_BODY_LENGTH, HALF_BODY_WIDTH, BODY_HEIGHT);
-        glVertex3f(HALF_BODY_LENGTH, -HALF_BODY_WIDTH, BODY_HEIGHT);
-        glVertex3f(-HALF_BODY_LENGTH, -HALF_BODY_WIDTH, BODY_HEIGHT);
-        glVertex3f(-HALF_BODY_LENGTH, HALF_BODY_WIDTH, BODY_HEIGHT);
+        glVertex3f(HALF_BODY_LENGTH, HALF_BODY_WIDTH, BODY_ELEVATION);
+        glVertex3f(HALF_BODY_LENGTH, -HALF_BODY_WIDTH, BODY_ELEVATION);
+        glVertex3f(-HALF_BODY_LENGTH, -HALF_BODY_WIDTH, BODY_ELEVATION);
+        glVertex3f(-HALF_BODY_LENGTH, HALF_BODY_WIDTH, BODY_ELEVATION);
         glEnd();
 
         /* Side faces */
@@ -88,7 +145,58 @@ namespace argos {
         glVertex3f(-HALF_BODY_LENGTH, -HALF_BODY_WIDTH, BODY_HEIGHT + BODY_ELEVATION);
         glVertex3f(-HALF_BODY_LENGTH, -HALF_BODY_WIDTH, BODY_ELEVATION);
         glEnd();
+        /* Upper face */
+        glBegin(GL_QUADS);
+        glNormal3f(0.0f, 0.0f, 1.0f);
+        glVertex3f(-HALF_BODY_LENGTH, -HALF_BODY_WIDTH, BODY_ELEVATION + BODY_HEIGHT);
+        glVertex3f(HALF_BODY_LENGTH, -HALF_BODY_WIDTH, BODY_ELEVATION + BODY_HEIGHT);
+        glVertex3f(HALF_BODY_LENGTH, HALF_BODY_WIDTH, BODY_ELEVATION + BODY_HEIGHT);
+        glVertex3f(-HALF_BODY_LENGTH, HALF_BODY_WIDTH, BODY_ELEVATION + BODY_HEIGHT);
+        glEnd();
 
+    }
+
+    void CQTOpenGLRVR::RenderWheel() {
+        SetWhitePlasticMaterial();
+        /* Right side */
+        CVector2 cVertex(WHEEL_RADIUS, 0.0f);
+        CRadians cAngle(CRadians::TWO_PI / m_unVertices);
+        CVector3 cNormal(-1.0f, -1.0f, 0.0f);
+        cNormal.Normalize();
+        glBegin(GL_POLYGON);
+        for (GLuint i = 0; i <= m_unVertices; i++) {
+            glNormal3f(cNormal.GetX(), cNormal.GetY(), cNormal.GetZ());
+            glVertex3f(cVertex.GetX(), -HALF_WHEEL_WIDTH, WHEEL_RADIUS + cVertex.GetY());
+            cVertex.Rotate(cAngle);
+            cNormal.RotateY(cAngle);
+        }
+        /* Left side */
+        cVertex.Set(WHEEL_RADIUS, 0.0f);
+        cNormal.Set(-1.0f, 1.0f, 0.0f);
+        cNormal.Normalize();
+        cAngle = -cAngle;
+        glBegin(GL_POLYGON);
+        for (GLuint i = 0; i <= m_unVertices; i++) {
+            glNormal3f(cNormal.GetX(), cNormal.GetY(), cNormal.GetZ());
+            glVertex3f(cVertex.GetX(), HALF_WHEEL_WIDTH, WHEEL_RADIUS + cVertex.GetY());
+            cVertex.Rotate(cAngle);
+            cNormal.RotateY(cAngle);
+        }
+        glEnd();
+        /* Tire */
+        cNormal.Set(1.0f, 0.0f, 0.0f);
+        cVertex.Set(WHEEL_RADIUS, 0.0f);
+        cAngle = -cAngle;
+        glBegin(GL_QUAD_STRIP);
+        for (GLuint i = 0; i <= m_unVertices; i++) {
+            glNormal3f(cNormal.GetX(), cNormal.GetY(), cNormal.GetZ());
+            glVertex3f(cVertex.GetX(), -HALF_WHEEL_WIDTH, WHEEL_RADIUS + cVertex.GetY());
+            glVertex3f(cVertex.GetX(), HALF_WHEEL_WIDTH, WHEEL_RADIUS + cVertex.GetY());
+            cVertex.Rotate(cAngle);
+            cNormal.RotateY(cAngle);
+        }
+        glEnd();
+        glEnd();
     }
 
     class CQTOpenGLOperationDrawRVRNormal : public CQTOpenGLOperationDrawNormal {

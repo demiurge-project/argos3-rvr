@@ -18,6 +18,9 @@ namespace argos {
 #include <GL/gl.h>
 #endif
 
+#include <vector>
+#include <argos3/core/utility/math/vector2.h>
+#include <argos3/core/utility/math/vector3.h>
 namespace argos {
 
     class CQTOpenGLRVR {
@@ -36,6 +39,8 @@ namespace argos {
         /** Renders a wheel */
         void RenderWheel();
 
+        void Render();
+
 
         /** Material functions */
 
@@ -47,14 +52,18 @@ namespace argos {
         void SetRedPlasticMaterial();
 
     private:
+
+        std::vector< argos::CVector3 > vertices;
+        std::vector< argos::CVector2 > uvs;
+        std::vector< argos::CVector3 > normals;
+
+
         /** Start of the display list index */
         GLuint m_unLists;
 
         /** Body display list */
         GLuint m_unBodyList;
 
-        /** RVR wheels */
-        GLuint m_unWheelList;
 
         /** Number of vertices to display the round parts
             (wheels, chassis, etc.) */

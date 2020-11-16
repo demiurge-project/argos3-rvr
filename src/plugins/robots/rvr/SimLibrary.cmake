@@ -4,7 +4,8 @@
 # Headers
 set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
   simulator/dynamics2d_rvr_model.h
-  simulator/rvr_entity.h)
+  simulator/rvr_entity.h
+  simulator/OBJLoader.h)
   # simulator/battery_equipped_entity.h
   # simulator/epuck_base_leds_default_actuator.h
   # simulator/epuck_rgb_leds_default_actuator.h

@@ -5,6 +5,7 @@
 
 #include "qtopengl_rvr.h"
 #include "rvr_entity.h"
+#include "OBJLoader.h"
 #include <argos3/core/simulator/entity/embodied_entity.h>
 #include <argos3/core/utility/math/vector2.h>
 #include <argos3/core/utility/math/vector3.h>
@@ -25,35 +26,34 @@ namespace argos {
     static const Real HALF_WHEEL_WIDTH = WHEEL_WIDTH * 0.5f;
     static const Real HALF_INTERWHEEL_DISTANCE = HALF_BODY_WIDTH + HALF_WHEEL_WIDTH;
 
-    static const UInt8 RVR_COMPONENTS_NUMBER = 2;
+    static const UInt8 RVR_COMPONENTS_NUMBER = 1;
 
     CQTOpenGLRVR::CQTOpenGLRVR() :
-        m_unVertices(40) {
+        m_unVertices(40) { // Won't be used at the moment.
+        OBJLoader::loadModelData("sphero_rvr.obj", vertices, uvs, normals);
+        printf("%lf", vertices[0].GetX());
         m_unLists = glGenLists(RVR_COMPONENTS_NUMBER);
         m_unBodyList = m_unLists;
-        m_unWheelList = m_unLists + 1;
-
-        /* Create the wheel display list */
-        glNewList(m_unWheelList, GL_COMPILE);
-        RenderWheel();
-        glEndList();
-
-        /* Creates the body display list */
         glNewList(m_unBodyList, GL_COMPILE);
-        RenderBody();
+        Render();
         glEndList();
-
     }
 
     CQTOpenGLRVR::~CQTOpenGLRVR() {
         glDeleteLists(m_unLists, RVR_COMPONENTS_NUMBER);
     }
 
+    void CQTOpenGLRVR::Render() {
+        glDrawElements(GL_ARRAY_BUFFER, vertices.size() * sizeof(argos::CVector3), GL_UNSIGNED_INT, &vertices[0]);
+    }
+
+
+
     void CQTOpenGLRVR::Draw(CRVREntity& c_entity) {
         /* Place the body */
         glCallList(m_unBodyList);
 
-        /* Place the wheels */
+        /*
         glPushMatrix();
         glTranslatef(HALF_BODY_LENGTH, HALF_INTERWHEEL_DISTANCE, 0.0f);
         glCallList(m_unWheelList);
@@ -73,6 +73,7 @@ namespace argos {
         glTranslatef(-HALF_BODY_LENGTH, HALF_INTERWHEEL_DISTANCE, 0.0f);
         glCallList(m_unWheelList);
         glPopMatrix();
+        */
 
     }
 

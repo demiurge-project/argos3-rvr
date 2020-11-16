@@ -31,7 +31,6 @@ namespace argos {
     CQTOpenGLRVR::CQTOpenGLRVR() :
         m_unVertices(40) { // Won't be used at the moment.
         OBJLoader::loadModelData("sphero_rvr.obj", vertices, uvs, normals);
-        printf("%lf", vertices[0].GetX());
         m_unLists = glGenLists(RVR_COMPONENTS_NUMBER);
         m_unBodyList = m_unLists;
         glNewList(m_unBodyList, GL_COMPILE);
@@ -44,7 +43,10 @@ namespace argos {
     }
 
     void CQTOpenGLRVR::Render() {
-        glDrawElements(GL_ARRAY_BUFFER, vertices.size() * sizeof(argos::CVector3), GL_UNSIGNED_INT, &vertices[0]);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(3, GL_DOUBLE, 0, &vertices[0]);
+        glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+        glDisableClientState(GL_VERTEX_ARRAY);
     }
 
 

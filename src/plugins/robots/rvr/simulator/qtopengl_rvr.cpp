@@ -25,7 +25,7 @@ namespace argos {
     static const Real HALF_WHEEL_WIDTH = WHEEL_WIDTH * 0.5f;
     static const Real HALF_INTERWHEEL_DISTANCE = HALF_BODY_WIDTH + HALF_WHEEL_WIDTH;
 
-    static const UInt8 RVR_COMPONENTS_NUMBER = 2; // only body for now
+    static const UInt8 RVR_COMPONENTS_NUMBER = 2;
 
     CQTOpenGLRVR::CQTOpenGLRVR() :
         m_unVertices(40) {
@@ -109,6 +109,9 @@ namespace argos {
         glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, pfEmission);
     }
 
+    /**
+     * Renders RVR Body. Currently modeled as a simple gray box.
+     */
     void CQTOpenGLRVR::RenderBody() {
         /* Set material */
         //SetWhitePlasticMaterial();
@@ -156,6 +159,9 @@ namespace argos {
 
     }
 
+    /**
+     * Renders an RVR Wheel as a simple white cylinder.
+     */
     void CQTOpenGLRVR::RenderWheel() {
         SetWhitePlasticMaterial();
         /* Right side */

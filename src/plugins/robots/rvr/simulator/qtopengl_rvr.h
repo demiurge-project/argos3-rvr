@@ -32,24 +32,8 @@ namespace argos {
 
     protected:
 
-        /** Functions meant to render each part of the robot */
-
-        /** Renders the body */
-        void RenderBody();
-        /** Renders a wheel */
-        void RenderWheel();
-
+        /** Renders the robot */
         void Render();
-
-
-        /** Material functions */
-
-        /** Sets a white plastic material */
-        void SetWhitePlasticMaterial();
-        /** Sets a gray plastic material */
-        void SetGrayPlasticMaterial();
-        /** Sets a red plastic material */
-        void SetRedPlasticMaterial();
 
     private:
 
@@ -59,11 +43,6 @@ namespace argos {
 
         /** Body display list */
         GLuint m_unBodyList;
-
-
-        /** Number of vertices to display the round parts
-            (wheels, chassis, etc.) */
-        GLuint m_unVertices;
     };
 }
 

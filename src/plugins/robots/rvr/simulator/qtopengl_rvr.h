@@ -18,7 +18,7 @@ namespace argos {
 #include <GL/gl.h>
 #endif
 
-#include <vector>
+
 #include <argos3/core/utility/math/vector2.h>
 #include <argos3/core/utility/math/vector3.h>
 namespace argos {
@@ -52,10 +52,6 @@ namespace argos {
         void SetRedPlasticMaterial();
 
     private:
-
-        std::vector< argos::CVector3 > vertices;
-        std::vector< argos::CVector2 > uvs;
-        std::vector< argos::CVector3 > normals;
 
 
         /** Start of the display list index */

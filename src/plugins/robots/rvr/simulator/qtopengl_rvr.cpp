@@ -5,7 +5,8 @@
 
 #include "qtopengl_rvr.h"
 #include "rvr_entity.h"
-#include "OBJLoader.h"
+#include "sphero_rvrMTL.h"
+#include "sphero_rvrOBJ.h"
 #include <argos3/core/simulator/entity/embodied_entity.h>
 #include <argos3/core/utility/math/vector2.h>
 #include <argos3/core/utility/math/vector3.h>
@@ -30,7 +31,7 @@ namespace argos {
 
     CQTOpenGLRVR::CQTOpenGLRVR() :
         m_unVertices(40) { // Won't be used at the moment.
-        OBJLoader::loadModelData("sphero_rvr.obj", vertices, uvs, normals);
+        //OBJLoader::loadModelData("sphero_rvr.obj", vertices, uvs, normals);
         m_unLists = glGenLists(RVR_COMPONENTS_NUMBER);
         m_unBodyList = m_unLists;
         glNewList(m_unBodyList, GL_COMPILE);
@@ -44,9 +45,33 @@ namespace argos {
 
     void CQTOpenGLRVR::Render() {
         glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(3, GL_DOUBLE, 0, &vertices[0]);
-        glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+        glVertexPointer(3, GL_FLOAT, 0, &sphero_rvrOBJVerts[0]);
+        glClientActiveTexture(GL_TEXTURE0);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glTexCoordPointer(2, GL_FLOAT, 0, sphero_rvrOBJTexCoords);
+        glEnableClientState(GL_NORMAL_ARRAY);
+        glNormalPointer(GL_FLOAT, 0, sphero_rvrOBJNormals);
+        for (int i = 0; i < sphero_rvrMTLNumMaterials; i++)
+        {
+            /*
+            glUniform3f(_uniforms.uAmbient, cubeMTLAmbient[i][0], cubeMTLAmbient[i][1], cubeMTLAmbient[i][2]);
+            glUniform3f(_uniforms.uDiffuse, cubeMTLDiffuse[i][0], cubeMTLDiffuse[i][1], cubeMTLDiffuse[i][2]);
+            glUniform3f(_uniforms.uSpecular, cubeMTLSpecular[i][0], cubeMTLSpecular[i][1], cubeMTLSpecular[i][2]);
+            glUniform1f(_uniforms.uExponent, cubeMTLExponent[i]);*/
+
+
+            glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, sphero_rvrMTLAmbient);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, sphero_rvrMTLDiffuse);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, sphero_rvrMTLSpecular);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, sphero_rvrMTLExponent);
+
+            // Draw scene by material group
+            glDrawArrays(GL_TRIANGLES, sphero_rvrMTLFirst[i], sphero_rvrMTLCount[i]);
+        }
         glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
+        //glDrawArrays(GL_TRIANGLES, 0, sphero_rvrOBJNumVerts);
     }
 
 

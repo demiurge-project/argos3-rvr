@@ -4,34 +4,34 @@
  * @author Raffaele Todesco - Raffaele Todesco - <raffaele.todesco@ulb.be>
  * */
 
- /*
- source files: ./sphero rvr.obj, ./sphero rvr.mtl
- materials: 3
-
- Name: Blue
- Ka: 1.000, 1.000, 1.000
- Kd: 0.077, 0.158, 0.976
- Ks: 0.500, 0.500, 0.500
- Ns: 225.000
-
- Name: Gray
- Ka: 1.000, 1.000, 1.000
- Kd: 0.123, 0.123, 0.123
- Ks: 0.500, 0.500, 0.500
- Ns: 225.000
-
- Name: White
- Ka: 1.000, 1.000, 1.000
- Kd: 1.000, 1.000, 1.000
- Ks: 0.500, 0.500, 0.500
- Ns: 225.000
-
- */
-
  /**
   * This class represents the 3 materials used to draw the RVR.
   * Each array represents the diffuse, ambient, specular and shininess of each material.
   * This was generated with mtl2opengl - https://github.com/ricardo-rendoncepeda/mtl2opengl
+  */
+
+  /*
+  source files: ./sphero rvr.obj, ./sphero rvr.mtl
+  materials: 3
+
+  Name: Blue
+  Ka: 1.000, 1.000, 1.000
+  Kd: 0.077, 0.158, 0.976
+  Ks: 0.500, 0.500, 0.500
+  Ns: 225.000
+
+  Name: Gray
+  Ka: 1.000, 1.000, 1.000
+  Kd: 0.123, 0.123, 0.123
+  Ks: 0.500, 0.500, 0.500
+  Ns: 225.000
+
+  Name: White
+  Ka: 1.000, 1.000, 1.000
+  Kd: 1.000, 1.000, 1.000
+  Ks: 0.500, 0.500, 0.500
+  Ns: 225.000
+
   */
 
 

@@ -4,14 +4,6 @@
  * @author Raffaele Todesco - Raffaele Todesco - <raffaele.todesco@ulb.be>
  * */
 
- /*
- source files: ./sphero rvr.obj, ./sphero rvr.mtl
- vertices: 1737
- faces: 3376
- normals: 1196
- texture coords: 2465
- */
-
  /**
   * This class represents the 3 vectors used to draw the RVR mesh.
   * Each array represents the vertices, UVs and normals.
@@ -19,6 +11,14 @@
   * UVs are made (as well as vertices and normals) during 3D modeling and are made to be checkpoints for texturing.
   * Normals are normal vectors that are required to make the robot interact correctly with light sources.
   * This was generated with mtl2opengl - https://github.com/ricardo-rendoncepeda/mtl2opengl
+  */
+
+  /*
+  source files: ./sphero rvr.obj, ./sphero rvr.mtl
+  vertices: 1737
+  faces: 3376
+  normals: 1196
+  texture coords: 2465
   */
 
 

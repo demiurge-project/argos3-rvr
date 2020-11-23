@@ -1,6 +1,6 @@
 /**
  * @file <argos3/plugins/robots/rvr/simulator/qtopengl_rvr.cpp>
- * 
+ *
  * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
 
@@ -38,12 +38,10 @@ namespace argos {
         glNormalPointer(GL_FLOAT, 0, sphero_rvrOBJNormals);
         for (int i = 0; i < sphero_rvrMTLNumMaterials; i++)
         {
-            glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, (GLfloat*)&sphero_rvrMTLAmbient[i]);
-            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, (GLfloat*)&sphero_rvrMTLDiffuse[i]);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, (GLfloat*)&sphero_rvrMTLColors[i]);
             glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, (GLfloat*)&sphero_rvrMTLSpecular[i]);
-            glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, (GLfloat*)&sphero_rvrMTLExponent[i]);
-
-            // Draw robot by material group
+            glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, (GLfloat*)&sphero_rvrMTLShininess[i]);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, (GLfloat*)&sphero_rvrMTLEmission[i]);
             glDrawArrays(GL_TRIANGLES, sphero_rvrMTLFirst[i], sphero_rvrMTLCount[i]);
         }
         glDisableClientState(GL_VERTEX_ARRAY);

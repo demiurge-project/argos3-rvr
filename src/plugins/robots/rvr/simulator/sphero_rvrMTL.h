@@ -36,47 +36,61 @@
 
 
   /** Number of materials */
-int sphero_rvrMTLNumMaterials = 3;
+int sphero_rvrMTLNumMaterials = 4;
 
-/** Beginning offset of each material */
-int sphero_rvrMTLFirst[3] = {
+int sphero_rvrMTLFirst[4] = {
 0,
 240,
 2064,
+9348,
 };
 
-/** Number of vertices for each material */
-int sphero_rvrMTLCount[3] = {
+int sphero_rvrMTLCount[4] = {
 240,
 1824,
-8064,
+7284,
+780,
 };
 
-/** Ambient values */
-float sphero_rvrMTLAmbient[3][3] = {
+float sphero_rvrMTLAmbient[4][3] = {
+1.000,1.000,1.000,
 1.000,1.000,1.000,
 1.000,1.000,1.000,
 1.000,1.000,1.000,
 };
 
-/** Diffuse values */
-float sphero_rvrMTLDiffuse[3][3] = {
+float sphero_rvrMTLDiffuse[4][3] = {
 0.077,0.158,0.976,
 0.123,0.123,0.123,
 1.000,1.000,1.000,
+0.216,0.800,0.015,
 };
 
-/** Specular values */
-float sphero_rvrMTLSpecular[3][3] = {
-0.500,0.500,0.500,
-0.500,0.500,0.500,
-0.500,0.500,0.500,
+float sphero_rvrMTLSpecular[4][4] = {
+0.9f, 0.9f, 0.9f, 1.0f,
+0.9f, 0.9f, 0.9f, 1.0f,
+0.9f, 0.9f, 0.9f, 1.0f,
+0.9f, 0.9f, 0.9f, 1.0f
 };
 
-/** Shininess values */
-float sphero_rvrMTLExponent[3] = {
-225.000,
-225.000,
-225.000,
+float sphero_rvrMTLColors[4][4] = {
+0.000, 0.000, 1.000, 1.0f, // blue RGBA over 255
+0.5f, 0.5f, 0.5f, 1.0f,// gray RGBA (for trails)
+1.0f, 1.0f, 1.0f, 1.0f,// white
+0.0f, 1.0f, 0.0f, 1.0f,// green
+};
+
+float sphero_rvrMTLShininess[4] = {
+100.000,
+100.000,
+100.000,
+100.000,
+};
+
+float sphero_rvrMTLEmission[4][4] = {
+0.0f, 0.0f, 0.0f, 1.0f,
+0.0f, 0.0f, 0.0f, 1.0f,
+0.0f, 0.0f, 0.0f, 1.0f,
+0.0f, 0.0f, 0.0f, 1.0f,
 };
 

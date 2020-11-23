@@ -9,6 +9,7 @@
 
 #include <argos3/plugins/simulator/physics_engines/dynamics2d/dynamics2d_model.h>
 #include <argos3/plugins/simulator/physics_engines/dynamics2d/dynamics2d_single_body_object_model.h>
+#include <argos3/plugins/simulator/physics_engines/dynamics2d/dynamics2d_differentialsteering_control.h>
 #include <argos3/plugins/robots/rvr/simulator/rvr_entity.h>
 
 namespace argos {
@@ -26,10 +27,15 @@ namespace argos {
 
     private:
         CRVREntity& m_cRVREntity;
+        CWheeledEntity& m_cWheeledEntity;
+
+        CDynamics2DDifferentialSteeringControl m_cDiffSteering;
 
         cpFloat  m_fMass;
         cpShape* m_ptBaseShape;
         cpBody* m_ptBaseBody;
+
+        const Real* m_fCurrentWheelVelocity;
     };
 }
 

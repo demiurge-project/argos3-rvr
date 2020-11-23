@@ -13,6 +13,7 @@ namespace argos {
 }
 
 #include <argos3/core/simulator/entity/composable_entity.h>
+#include <argos3/plugins/simulator/entities/wheeled_entity.h>
 
 namespace argos {
     class CRVREntity : public CComposableEntity {
@@ -39,16 +40,29 @@ namespace argos {
             return *m_pcEmbodiedEntity;
         }
 
+        inline CWheeledEntity& GetWheeledEntity() {
+            return *m_pcWheeledEntity;
+        }
+
         virtual std::string GetTypeDescription() const {
             return "rvr";
         }
     private:
         CControllableEntity* m_pcControllableEntity;
         CEmbodiedEntity* m_pcEmbodiedEntity;
+        CWheeledEntity* m_pcWheeledEntity;
     public:
+        /** Body properties */
         static const Real BODY_LENGTH;
         static const Real BODY_HEIGHT;
         static const Real BODY_WIDTH;
+
+        /** Wheel properties */
+        static const Real INTERWHEEL_DISTANCE; // distance between wheels of opposite sides (width distance)
+        static const Real HALF_INTERWHEEL_DISTANCE;
+        static const Real WHEEL_RADIUS;
+        static const Real LENGTH_WHEEL_DISTANCE;
+        static const Real HALF_LENGTH_WHEEL_DISTANCE;
     };
 }
 

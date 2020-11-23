@@ -12,17 +12,33 @@ namespace argos {
     static const Real RVR_BODY_LENGTH = CRVREntity::BODY_LENGTH;
     static const Real RVR_WIDTH = CRVREntity::BODY_WIDTH;
 
+    static const Real RVR_INTERWHEEL_DISTANCE = CRVREntity::INTERWHEEL_DISTANCE;
+
+    static const Real RVR_MAX_FORCE = 1.5f;
+    static const Real RVR_MAX_TORQUE = 1.5f;
+
+    enum RVR_WHEELS {
+        RVR_LEFT_WHEEL = 0,
+        RVR_RIGHT_WHEEL = 1
+    };
+
     CDynamics2DRVRModel::CDynamics2DRVRModel(CDynamics2DEngine& c_engine,
         CRVREntity& c_entity) :
         CDynamics2DSingleBodyObjectModel(c_engine, c_entity),
         m_cRVREntity(c_entity),
-        m_fMass(0.4f) {
+        m_cWheeledEntity(m_cRVREntity.GetWheeledEntity()),
+        m_cDiffSteering(c_engine,
+            RVR_MAX_FORCE,
+            RVR_MAX_TORQUE,
+            RVR_INTERWHEEL_DISTANCE),
+        m_fMass(2.0f),
+        m_fCurrentWheelVelocity(m_cWheeledEntity.GetWheelVelocities()) { // 1kg mass multiplied by 2
         // Create vertices for box shape
         cpVect tVertices[] = {
-         cpv(-RVR_WIDTH * 0.5f, -RVR_HEIGHT * 0.5f),
-         cpv(-RVR_WIDTH * 0.5f,  RVR_HEIGHT * 0.5f),
-         cpv(RVR_WIDTH * 0.5f,  RVR_HEIGHT * 0.5f),
-         cpv(RVR_WIDTH * 0.5f, -RVR_HEIGHT * 0.5f)
+         cpv(-RVR_WIDTH * 0.5f, -RVR_BODY_LENGTH * 0.5f),
+         cpv(-RVR_WIDTH * 0.5f,  RVR_BODY_LENGTH * 0.5f),
+         cpv(RVR_WIDTH * 0.5f,  RVR_BODY_LENGTH * 0.5f),
+         cpv(RVR_WIDTH * 0.5f, -RVR_BODY_LENGTH * 0.5f)
         };
         // Create body
         m_ptBaseBody =
@@ -47,21 +63,30 @@ namespace argos {
         m_ptBaseShape->e = 0.0; // elasticity
         m_ptBaseShape->u = 0.7; // friction with the ground
 
+        m_cDiffSteering.AttachTo(m_ptBaseBody);
+
         SetBody(m_ptBaseBody, RVR_HEIGHT);
     }
 
     CDynamics2DRVRModel::~CDynamics2DRVRModel() {
-        // detach steering
+        m_cDiffSteering.Detach();
     }
 
     void CDynamics2DRVRModel::Reset() {
         CDynamics2DSingleBodyObjectModel::Reset();
-        // reset steering
+        m_cDiffSteering.Reset();
     }
 
     void CDynamics2DRVRModel::UpdateFromEntityStatus() {
-        // manage with steerings
-        // TODO 
+        if ((m_fCurrentWheelVelocity[RVR_LEFT_WHEEL] != 0.0f) ||
+            (m_fCurrentWheelVelocity[RVR_RIGHT_WHEEL] != 0.0f)) {
+            m_cDiffSteering.SetWheelVelocity(m_fCurrentWheelVelocity[RVR_LEFT_WHEEL],
+                m_fCurrentWheelVelocity[RVR_RIGHT_WHEEL]);
+        }
+        else {
+            /* No, we don't want to move - zero all speeds */
+            m_cDiffSteering.Reset();
+        }
     }
 
     REGISTER_STANDARD_DYNAMICS2D_OPERATIONS_ON_ENTITY(CRVREntity, CDynamics2DRVRModel);

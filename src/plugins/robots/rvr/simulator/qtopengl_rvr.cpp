@@ -11,22 +11,70 @@
 #include <argos3/core/simulator/entity/embodied_entity.h>
 #include <argos3/core/utility/math/vector2.h>
 #include <argos3/core/utility/math/vector3.h>
+#include <argos3/plugins/simulator/entities/led_equipped_entity.h>
 #include <argos3/plugins/simulator/visualizations/qt-opengl/qtopengl_widget.h>
 
 namespace argos {
 
-    static const UInt8 RVR_COMPONENTS_NUMBER = 1; // only 1 component : full body
+    static const UInt8 RVR_COMPONENTS_NUMBER = 2;
 
-    CQTOpenGLRVR::CQTOpenGLRVR() {
+    CQTOpenGLRVR::CQTOpenGLRVR() : m_unVertices(40) {
         m_unLists = glGenLists(RVR_COMPONENTS_NUMBER);
         m_unBodyList = m_unLists;
+        m_unLEDList = m_unLists + 1;
+
+        /** Add body */
         glNewList(m_unBodyList, GL_COMPILE);
         Render();
+        glEndList();
+
+        /** Add LEDs */
+        glNewList(m_unLEDList, GL_COMPILE);
+        RenderLEDs();
         glEndList();
     }
 
     CQTOpenGLRVR::~CQTOpenGLRVR() {
         glDeleteLists(m_unLists, RVR_COMPONENTS_NUMBER);
+    }
+
+
+
+    void CQTOpenGLRVR::Draw(CRVREntity& c_entity) {
+        /* Place the body */
+        glCallList(m_unBodyList);
+
+        /* Place the LEDs */
+        glPushMatrix();
+        CLEDEquippedEntity& cLEDEquippedEntity = c_entity.GetLEDEquippedEntity();
+        for (UInt8 i = 0; i < 5; i++) {
+            const CColor& cColor = cLEDEquippedEntity.GetLED(i).GetColor();
+            glTranslatef(CRVREntity::LEDS_POSITIONS[i][0], CRVREntity::LEDS_POSITIONS[i][1], CRVREntity::LEDS_ELEVATION);
+            SetLEDMaterial(cColor.GetRed(),
+                cColor.GetGreen(),
+                cColor.GetBlue());
+            glCallList(m_unLEDList);
+            glTranslatef(-CRVREntity::LEDS_POSITIONS[i][0], -CRVREntity::LEDS_POSITIONS[i][1], -CRVREntity::LEDS_ELEVATION);
+        }
+        glPopMatrix();
+
+    }
+
+    void CQTOpenGLRVR::SetLEDMaterial(GLfloat f_red,
+        GLfloat f_green,
+        GLfloat f_blue) {
+        const GLfloat fEmissionFactor = 10.0f;
+        const GLfloat pfColor[] = { f_red, f_green, f_blue, 1.0f };
+        const GLfloat pfSpecular[] = { 0.0f,  0.0f, 0.0f, 1.0f };
+        const GLfloat pfShininess[] = { 0.0f };
+        const GLfloat pfEmission[] = { f_red * fEmissionFactor,
+                                       f_green * fEmissionFactor,
+                                       f_blue * fEmissionFactor,
+                                       1.0f };
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, pfColor);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, pfSpecular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, pfShininess);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, pfEmission);
     }
 
     void CQTOpenGLRVR::Render() {
@@ -50,14 +98,35 @@ namespace argos {
     }
 
 
-
-    void CQTOpenGLRVR::Draw(CRVREntity& c_entity) {
-        /* Place the body */
-        glCallList(m_unBodyList);
-
+    void CQTOpenGLRVR::RenderLEDs() {
+        glBegin(GL_QUAD_STRIP);
+        GLfloat x = 0.0;
+        GLfloat y = 0.0;
+        GLfloat angle = 0.0;
+        GLfloat angle_stepsize = 0.1;
+        const GLfloat radius = CRVREntity::LED_OUTER_RADIUS;
+        const GLfloat height = CRVREntity::LEDS_HEIGHT;
+        while (angle < CRadians::TWO_PI.GetValue()) {
+            x = radius * cos(angle);
+            y = radius * sin(angle);
+            glVertex3f(x, y, height);
+            glVertex3f(x, y, 0.0);
+            angle = angle + angle_stepsize;
+        }
+        glVertex3f(radius, 0.0, height);
+        glVertex3f(radius, 0.0, 0.0);
+        glEnd();
+        glBegin(GL_POLYGON);
+        angle = 0.0;
+        while (angle < CRadians::TWO_PI.GetValue()) {
+            x = radius * cos(angle);
+            y = radius * sin(angle);
+            glVertex3f(x, y, height);
+            angle = angle + angle_stepsize;
+        }
+        glVertex3f(radius, 0.0, height);
+        glEnd();
     }
-
-
     class CQTOpenGLOperationDrawRVRNormal : public CQTOpenGLOperationDrawNormal {
     public:
         void ApplyTo(CQTOpenGLWidget& c_visualization,

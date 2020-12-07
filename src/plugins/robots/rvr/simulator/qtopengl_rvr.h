@@ -19,8 +19,6 @@ namespace argos {
 #endif
 
 
-#include <argos3/core/utility/math/vector2.h>
-#include <argos3/core/utility/math/vector3.h>
 namespace argos {
 
     class CQTOpenGLRVR {
@@ -35,6 +33,14 @@ namespace argos {
         /** Renders the robot */
         void Render();
 
+        /** Renders the LEDs */
+        void RenderLEDs();
+
+        /** Sets a colored LED material */
+        void SetLEDMaterial(GLfloat f_red,
+            GLfloat f_green,
+            GLfloat f_blue);
+
     private:
 
 
@@ -43,6 +49,13 @@ namespace argos {
 
         /** Body display list */
         GLuint m_unBodyList;
+
+        /** LED display list */
+        GLuint m_unLEDList;
+
+        /** Number of vertices to display the round parts
+    (LEDs,...) */
+        GLuint m_unVertices;
     };
 }
 

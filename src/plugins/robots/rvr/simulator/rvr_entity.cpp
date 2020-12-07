@@ -5,8 +5,13 @@
 
 #include "rvr_entity.h"
 
+#include <argos3/core/utility/math/matrix/rotationmatrix3.h>
+#include <argos3/core/simulator/space/space.h>
 #include <argos3/core/simulator/entity/controllable_entity.h>
 #include <argos3/core/simulator/entity/embodied_entity.h>
+#include <argos3/plugins/simulator/entities/led_equipped_entity.h>
+
+#include <argos3/core/utility/math/general.h>
 
 namespace argos {
     const Real CRVREntity::BODY_HEIGHT = 0.114f;
@@ -20,10 +25,26 @@ namespace argos {
     const Real CRVREntity::LENGTH_WHEEL_DISTANCE = 0.1539f;
     const Real CRVREntity::HALF_LENGTH_WHEEL_DISTANCE = LENGTH_WHEEL_DISTANCE * 0.5f;
 
+    /** LEDs */
+    const Real CRVREntity::LEDS_ELEVATION = BODY_HEIGHT * 0.3f;
+
+    const Real CRVREntity::LEDS_POSITIONS[5][2] = {
+            {BODY_LENGTH * 0.5f, BODY_WIDTH * 0.5f * 0.2f}, // front right
+            {BODY_LENGTH * 0.5f, -(BODY_WIDTH * 0.5f * 0.2f)}, // front left
+            {0.0f, BODY_WIDTH * 0.5f}, // right
+            {0.0f, -BODY_WIDTH * 0.5f}, // left
+            {-BODY_LENGTH * 0.5f, 0.0f} // back
+    };
+
+    const Real CRVREntity::LEDS_HEIGHT = 0.01f;
+    const Real CRVREntity::LED_INNER_RADIUS = 0.01f * 0.8f;
+    const Real CRVREntity::LED_OUTER_RADIUS = 0.01f;
+
     CRVREntity::CRVREntity() :
         CComposableEntity(NULL),
         m_pcControllableEntity(NULL),
         m_pcEmbodiedEntity(NULL),
+        m_pcLEDEquippedEntity(NULL),
         m_pcWheeledEntity(NULL) {}
 
     CRVREntity::CRVREntity(const std::string& str_id,
@@ -34,6 +55,7 @@ namespace argos {
         CComposableEntity(NULL, str_id),
         m_pcControllableEntity(NULL),
         m_pcEmbodiedEntity(NULL),
+        m_pcLEDEquippedEntity(NULL),
         m_pcWheeledEntity(NULL) {
 
         try {
@@ -43,13 +65,25 @@ namespace argos {
             AddComponent(*m_pcEmbodiedEntity);
 
             /** Wheeled entity */
-            /* We have 4 wheels */
+            /* We have 4 wheels but 2 axis*/
             m_pcWheeledEntity = new CWheeledEntity(this, "wheels_0", 2);
             AddComponent(*m_pcWheeledEntity);
             /* Set each whel position */
             m_pcWheeledEntity->SetWheel(0, CVector3(0.0f, HALF_INTERWHEEL_DISTANCE, 0.0f), WHEEL_RADIUS);
             m_pcWheeledEntity->SetWheel(1, CVector3(0.0f, -HALF_INTERWHEEL_DISTANCE, 0.0f), WHEEL_RADIUS);
 
+            /** LED entity */
+            /* We have 5 LEDs :
+            - 2 front (left and right)
+            - 1 back
+            - 1 for each side of the robot */
+            m_pcLEDEquippedEntity = new CLEDEquippedEntity(this, "leds_0");
+            AddComponent(*m_pcLEDEquippedEntity);
+            for (int i = 0; i < 5; ++i) {
+                m_pcLEDEquippedEntity->AddLED(CVector3(LEDS_POSITIONS[i][0], LEDS_POSITIONS[i][1], LEDS_ELEVATION), m_pcEmbodiedEntity->GetOriginAnchor());
+            }
+
+            m_pcLEDEquippedEntity->Disable();
             /** Controllable entity
              * Must be added last for sensors and actuators to link correctly
              */
@@ -81,6 +115,19 @@ namespace argos {
             /* Set each whel position */
             m_pcWheeledEntity->SetWheel(0, CVector3(0.0f, HALF_INTERWHEEL_DISTANCE, 0.0f), WHEEL_RADIUS);
             m_pcWheeledEntity->SetWheel(1, CVector3(0.0f, -HALF_INTERWHEEL_DISTANCE, 0.0f), WHEEL_RADIUS);
+
+            /** LED entity */
+            /* We have 5 LEDs :
+            - 2 front (left and right)
+            - 1 back
+            - 1 for each side of the robot */
+            m_pcLEDEquippedEntity = new CLEDEquippedEntity(this, "leds_0");
+            AddComponent(*m_pcLEDEquippedEntity);
+            for (int i = 0; i < 5; ++i) {
+                m_pcLEDEquippedEntity->AddLED(CVector3(LEDS_POSITIONS[i][0], LEDS_POSITIONS[i][1], LEDS_ELEVATION), m_pcEmbodiedEntity->GetOriginAnchor());
+            }
+
+            m_pcLEDEquippedEntity->Disable();
 
             /** Controllable entity
              * Must be added last for sensors and actuators to link correctly
@@ -114,7 +161,7 @@ namespace argos {
 #define UPDATE(COMPONENT) if(COMPONENT->IsEnabled()) COMPONENT->Update();
 
     void CRVREntity::UpdateComponents() {
-        // no components to update for now
+        UPDATE(m_pcLEDEquippedEntity);
     }
 
 

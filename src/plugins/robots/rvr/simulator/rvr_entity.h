@@ -7,9 +7,10 @@
 #define RVR_ENTITY_H
 
 namespace argos {
+    class CControllableEntity;
     class CRVREntity;
     class CEmbodiedEntity;
-    class CControllableEntity;
+    class CLEDEquippedEntity;
 }
 
 #include <argos3/core/simulator/entity/composable_entity.h>
@@ -40,6 +41,10 @@ namespace argos {
             return *m_pcEmbodiedEntity;
         }
 
+        inline CLEDEquippedEntity& GetLEDEquippedEntity() {
+            return *m_pcLEDEquippedEntity;
+        }
+
         inline CWheeledEntity& GetWheeledEntity() {
             return *m_pcWheeledEntity;
         }
@@ -50,6 +55,7 @@ namespace argos {
     private:
         CControllableEntity* m_pcControllableEntity;
         CEmbodiedEntity* m_pcEmbodiedEntity;
+        CLEDEquippedEntity* m_pcLEDEquippedEntity;
         CWheeledEntity* m_pcWheeledEntity;
     public:
         /** Body properties */
@@ -63,6 +69,13 @@ namespace argos {
         static const Real WHEEL_RADIUS;
         static const Real LENGTH_WHEEL_DISTANCE;
         static const Real HALF_LENGTH_WHEEL_DISTANCE;
+
+        /** LEDs properties */
+        static const Real LEDS_ELEVATION;
+        static const Real LEDS_POSITIONS[5][2];
+        static const Real LEDS_HEIGHT;
+        static const Real LED_INNER_RADIUS;
+        static const Real LED_OUTER_RADIUS;
     };
 }
 

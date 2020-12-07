@@ -4,11 +4,11 @@
 # Headers
 set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
   simulator/dynamics2d_rvr_model.h
-  simulator/rvr_entity.h)
+  simulator/rvr_entity.h
   # simulator/battery_equipped_entity.h
   # simulator/epuck_base_leds_default_actuator.h
   # simulator/epuck_rgb_leds_default_actuator.h
-  # simulator/epuck_wheels_default_actuator.h
+   simulator/rvr_wheels_default_actuator.h)
   # simulator/epuck_range_and_bearing_default_actuator.h
   # simulator/epuck_virtual_camrab_default_actuator.h
   # simulator/epuck_virtual_camrab_default_sensor.h
@@ -37,11 +37,11 @@ endif(ARGOS_COMPILE_QTOPENGL)
    ${ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR}
    ${ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR}
    simulator/dynamics2d_rvr_model.cpp
-   simulator/rvr_entity.cpp)
+   simulator/rvr_entity.cpp
 #   simulator/battery_equipped_entity.cpp
 #   simulator/epuck_base_leds_default_actuator.cpp
 #   simulator/epuck_rgb_leds_default_actuator.cpp
-#   simulator/epuck_wheels_default_actuator.cpp
+   simulator/rvr_wheels_default_actuator.cpp)
 #   simulator/epuck_range_and_bearing_default_actuator.cpp
 #   simulator/epuck_virtual_camrab_default_actuator.cpp
 #   simulator/epuck_virtual_camrab_default_sensor.cpp

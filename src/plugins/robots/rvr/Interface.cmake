@@ -1,7 +1,7 @@
 #
-# e-puck control interface headers
+# RVR control interface headers
 #
-#set(ARGOS3_HEADERS_PLUGINS_ROBOTS_EPUCK_CONTROLINTERFACE
+set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_CONTROLINTERFACE
   # Sensors
 #   control_interface/ci_epuck_proximity_sensor.h
 #   control_interface/ci_epuck_range_and_bearing_sensor.h
@@ -20,15 +20,15 @@
 #   control_interface/ci_epuck_base_leds_actuator.h
 #   control_interface/ci_epuck_rgb_leds_actuator.h
 #   control_interface/ci_epuck_range_and_bearing_actuator.h
-#   control_interface/ci_epuck_wheels_actuator.h
+   control_interface/ci_rvr_wheels_actuator.h)
 #   control_interface/ci_epuck_ircom_actuator.h
 #   control_interface/ci_epuck_virtual_camrab_actuator.h)
 
 #
-# e-puck control interface sources
+# RVR control interface sources
 #
-#set(ARGOS3_SOURCES_PLUGINS_ROBOTS_EPUCK
-#  ${ARGOS3_HEADERS_PLUGINS_ROBOTS_EPUCK_CONTROLINTERFACE}
+set(ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR
+  ${ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_CONTROLINTERFACE}
   # Sensors
 #   control_interface/ci_epuck_proximity_sensor.cpp
 #   control_interface/ci_epuck_battery_sensor.cpp
@@ -40,17 +40,17 @@
 #   control_interface/ci_epuck_micro_sensor.cpp
 #   control_interface/ci_epuck_omnidirectional_camera_sensor.cpp
 #   control_interface/ci_epuck_virtual_camrab_sensor.cpp
-#   # Actuators
+   # Actuators
 #   control_interface/ci_epuck_base_leds_actuator.cpp
 #   control_interface/ci_epuck_rgb_leds_actuator.cpp
 #   control_interface/ci_epuck_range_and_bearing_actuator.cpp
-#   control_interface/ci_epuck_wheels_actuator.cpp
+   control_interface/ci_rvr_wheels_actuator.cpp)
 #   control_interface/ci_epuck_ircom_actuator.cpp
 #   control_interface/ci_epuck_virtual_camrab_actuator.cpp))
 
 #
-# Install location for the e-puck control interface headers
+# Install location for the RVR control interface headers
 #
-# install(
-#   FILES ${ARGOS3_HEADERS_PLUGINS_ROBOTS_EPUCK_CONTROLINTERFACE}
-#   DESTINATION include/argos3/plugins/robots/rvr/control_interface)
+ install(
+   FILES ${ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_CONTROLINTERFACE}
+   DESTINATION include/argos3/plugins/robots/rvr/control_interface)

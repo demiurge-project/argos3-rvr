@@ -89,6 +89,10 @@ namespace argos
         static const Real LEDS_HEIGHT;
         static const Real LED_INNER_RADIUS;
         static const Real LED_OUTER_RADIUS;
+
+        /* Ground sensor */
+
+        static const Real GROUND_SENSOR_OFFSET;
     };
 } // namespace argos
 

@@ -42,8 +42,6 @@ namespace argos
 
     void CRVRGroundColorSensor::Update()
     {
-        // TODO : update sensor position according to the real one
-        // it is not in the center of it.
         /* Get Robot position and orientation */
         const CVector3 &cEntityPos = m_pcEmbodiedEntity->GetOriginAnchor().Position;
         const CQuaternion &cEntityRot = m_pcEmbodiedEntity->GetOriginAnchor().Orientation;

@@ -30,6 +30,9 @@ namespace argos
     /** LEDs */
     const Real CRVREntity::LEDS_ELEVATION = BODY_HEIGHT * 0.3f;
 
+    /* Ground sensor */
+    const Real CRVREntity::GROUND_SENSOR_OFFSET = 0.05f;
+
     const Real CRVREntity::LEDS_POSITIONS[5][2] = {
         {BODY_LENGTH * 0.5f, BODY_WIDTH * 0.5f * 0.2f},    // front right
         {BODY_LENGTH * 0.5f, -(BODY_WIDTH * 0.5f * 0.2f)}, // front left
@@ -96,7 +99,7 @@ namespace argos
                                                                              "ground_0");
             AddComponent(*m_pcGroundSensorEquippedEntity);
             // TODO : update real position
-            m_pcGroundSensorEquippedEntity->AddSensor(CVector2(0.1f, 0.0f),
+            m_pcGroundSensorEquippedEntity->AddSensor(CVector2(GROUND_SENSOR_OFFSET, 0.0f),
                                                       CGroundSensorEquippedEntity::TYPE_GRAYSCALE, m_pcEmbodiedEntity->GetOriginAnchor());
             /** Controllable entity
              * Must be added last for sensors and actuators to link correctly
@@ -151,7 +154,7 @@ namespace argos
                                                                              "ground_0");
             AddComponent(*m_pcGroundSensorEquippedEntity);
             // TODO : update real position
-            m_pcGroundSensorEquippedEntity->AddSensor(CVector2(0.1f, 0.0f),
+            m_pcGroundSensorEquippedEntity->AddSensor(CVector2(GROUND_SENSOR_OFFSET, 0.0f),
                                                       CGroundSensorEquippedEntity::TYPE_GRAYSCALE, m_pcEmbodiedEntity->GetOriginAnchor());
 
             /** Controllable entity

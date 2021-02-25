@@ -8,7 +8,7 @@ set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
   # simulator/battery_equipped_entity.h
   # simulator/epuck_base_leds_default_actuator.h
    simulator/rvr_rgb_leds_default_actuator.h
-   simulator/rvr_wheels_default_actuator.h)
+   simulator/rvr_wheels_default_actuator.h
   # simulator/epuck_range_and_bearing_default_actuator.h
   # simulator/epuck_virtual_camrab_default_actuator.h
   # simulator/epuck_virtual_camrab_default_sensor.h
@@ -19,7 +19,7 @@ set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
   # simulator/epuck_light_default_sensor.h
   # simulator/epuck_range_and_bearing_default_sensor.h
   # simulator/epuck_ircom_default_sensor.h
-  # simulator/epuck_ground_rotzonly_sensor.h
+   simulator/rvr_ground_color_sensor.h)
   # simulator/epuck_rab_equipped_entity.h)
 if(ARGOS_COMPILE_QTOPENGL)
    set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
@@ -41,7 +41,7 @@ endif(ARGOS_COMPILE_QTOPENGL)
 #   simulator/battery_equipped_entity.cpp
 #   simulator/epuck_base_leds_default_actuator.cpp
    simulator/rvr_rgb_leds_default_actuator.cpp
-   simulator/rvr_wheels_default_actuator.cpp)
+   simulator/rvr_wheels_default_actuator.cpp
 #   simulator/epuck_range_and_bearing_default_actuator.cpp
 #   simulator/epuck_virtual_camrab_default_actuator.cpp
 #   simulator/epuck_virtual_camrab_default_sensor.cpp
@@ -52,7 +52,7 @@ endif(ARGOS_COMPILE_QTOPENGL)
 #   simulator/epuck_light_default_sensor.cpp
 #   simulator/epuck_range_and_bearing_default_sensor.cpp
 #   simulator/epuck_ircom_default_sensor.cpp
-#   simulator/epuck_ground_rotzonly_sensor.cpp
+    simulator/rvr_ground_color_sensor.cpp)
 #   simulator/epuck_rab_equipped_entity.cpp)
 if(ARGOS_COMPILE_QTOPENGL)
   set(ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR

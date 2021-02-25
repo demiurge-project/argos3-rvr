@@ -6,57 +6,70 @@
 #ifndef RVR_ENTITY_H
 #define RVR_ENTITY_H
 
-namespace argos {
+namespace argos
+{
     class CControllableEntity;
     class CRVREntity;
     class CEmbodiedEntity;
     class CLEDEquippedEntity;
-}
+    class CGroundSensorEquippedEntity;
+} // namespace argos
 
 #include <argos3/core/simulator/entity/composable_entity.h>
 #include <argos3/plugins/simulator/entities/wheeled_entity.h>
 
-namespace argos {
-    class CRVREntity : public CComposableEntity {
+namespace argos
+{
+    class CRVREntity : public CComposableEntity
+    {
     public:
         ENABLE_VTABLE();
+
     public:
         CRVREntity();
 
-        CRVREntity(const std::string& str_id,
-            const std::string& str_controller_id,
-            const CVector3& c_position = CVector3(),
-            const CQuaternion& c_orientation = CQuaternion());
+        CRVREntity(const std::string &str_id,
+                   const std::string &str_controller_id,
+                   const CVector3 &c_position = CVector3(),
+                   const CQuaternion &c_orientation = CQuaternion());
 
-        virtual void Init(TConfigurationNode& t_tree);
+        virtual void Init(TConfigurationNode &t_tree);
         virtual void Reset();
         virtual void Destroy();
         virtual void UpdateComponents();
 
-        inline CControllableEntity& GetControllableEntity() {
+        inline CControllableEntity &GetControllableEntity()
+        {
             return *m_pcControllableEntity;
         }
 
-        inline CEmbodiedEntity& GetEmbodiedEntity() {
+        inline CEmbodiedEntity &GetEmbodiedEntity()
+        {
             return *m_pcEmbodiedEntity;
         }
 
-        inline CLEDEquippedEntity& GetLEDEquippedEntity() {
+        inline CLEDEquippedEntity &GetLEDEquippedEntity()
+        {
             return *m_pcLEDEquippedEntity;
         }
 
-        inline CWheeledEntity& GetWheeledEntity() {
+        inline CWheeledEntity &GetWheeledEntity()
+        {
             return *m_pcWheeledEntity;
         }
 
-        virtual std::string GetTypeDescription() const {
+        virtual std::string GetTypeDescription() const
+        {
             return "rvr";
         }
+
     private:
-        CControllableEntity* m_pcControllableEntity;
-        CEmbodiedEntity* m_pcEmbodiedEntity;
-        CLEDEquippedEntity* m_pcLEDEquippedEntity;
-        CWheeledEntity* m_pcWheeledEntity;
+        CControllableEntity *m_pcControllableEntity;
+        CEmbodiedEntity *m_pcEmbodiedEntity;
+        CGroundSensorEquippedEntity *m_pcGroundSensorEquippedEntity;
+        CLEDEquippedEntity *m_pcLEDEquippedEntity;
+        CWheeledEntity *m_pcWheeledEntity;
+
     public:
         /** Body properties */
         static const Real BODY_LENGTH;
@@ -77,6 +90,6 @@ namespace argos {
         static const Real LED_INNER_RADIUS;
         static const Real LED_OUTER_RADIUS;
     };
-}
+} // namespace argos
 
 #endif

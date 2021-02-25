@@ -5,7 +5,7 @@ set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_CONTROLINTERFACE
   # Sensors
 #   control_interface/ci_epuck_proximity_sensor.h
 #   control_interface/ci_epuck_range_and_bearing_sensor.h
-#   control_interface/ci_epuck_ground_sensor.h
+   control_interface/ci_rvr_ground_color_sensor.h
 #   control_interface/ci_epuck_light_sensor.h
 #   control_interface/ci_epuck_encoder_sensor.h
 #   control_interface/ci_epuck_accelerometer_sensor.h
@@ -33,7 +33,7 @@ set(ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR
 #   control_interface/ci_epuck_proximity_sensor.cpp
 #   control_interface/ci_epuck_battery_sensor.cpp
 #   control_interface/ci_epuck_range_and_bearing_sensor.cpp
-#   control_interface/ci_epuck_ground_sensor.cpp
+   control_interface/ci_rvr_ground_color_sensor.cpp
 #   control_interface/ci_epuck_light_sensor.cpp
 #   control_interface/ci_epuck_encoder_sensor.cpp
 #   control_interface/ci_epuck_accelerometer_sensor.cpp

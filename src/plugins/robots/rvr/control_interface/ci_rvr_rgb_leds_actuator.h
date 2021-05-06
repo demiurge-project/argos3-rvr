@@ -20,27 +20,29 @@
  * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
 
-
 #ifndef CCI_RVR_RGB_LEDS_ACTUATOR_H
-#define CCI_RVR_RGB_LEDS_ACTUATOR_H 
+#define CCI_RVR_RGB_LEDS_ACTUATOR_H
 
 #include <argos3/core/utility/logging/argos_log.h>
 
-namespace argos {
+namespace argos
+{
     class CCI_RVRRGBLEDsActuator;
 }
 
 #include <argos3/core/utility/datatypes/color.h>
 #include <argos3/core/control_interface/ci_actuator.h>
 
-namespace argos {
+namespace argos
+{
 
 }
 
-namespace argos {
-    class CCI_RVRRGBLEDsActuator : public CCI_Actuator {
+namespace argos
+{
+    class CCI_RVRRGBLEDsActuator : public CCI_Actuator
+    {
     public:
-
         /**
          * RGB LED settings data type
          */
@@ -50,7 +52,8 @@ namespace argos {
         /**
          * Enum class used to facilitate LED usage.
          */
-        enum LEDS {
+        enum LEDS
+        {
             FRONT_LEFT = 0,
             FRONT_RIGHT = 1,
             LEFT_SIDE = 2,
@@ -59,7 +62,6 @@ namespace argos {
         };
 
     public:
-
         CCI_RVRRGBLEDsActuator();
 
         virtual ~CCI_RVRRGBLEDsActuator() {}
@@ -70,29 +72,28 @@ namespace argos {
          * @param c_color Wanted color.
          */
         virtual void SetColor(size_t un_led_number,
-            const CColor& c_color);
+                              const CColor &c_color);
 
         /**
          * Sets the same color for all LEDs.
          * @param c_color The wanted color.
          */
-        virtual void SetColors(const CColor& c_color);
+        virtual void SetColors(const CColor &c_color);
 
         /**
-         * Sets the colors of all LEDs individually.
+         * Sets all LEDs to the given color.
          */
-        virtual void SetColors(const TLEDSettings& c_colors);
+        virtual void SetColors(const TLEDSettings &c_colors);
 
 #ifdef ARGOS_WITH_LUA
         /**
          *
          * @param pt_lua_state
          */
-        virtual void CreateLuaState(lua_State* pt_lua_state);
+        virtual void CreateLuaState(lua_State *pt_lua_state);
 #endif
 
     protected:
-
         /**
          * RGB LEDs settings
          */

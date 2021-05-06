@@ -21,7 +21,7 @@ namespace argos
     const Real CRVREntity::BODY_WIDTH = 0.2159f;
 
     /** To be measured */
-    const Real CRVREntity::INTERWHEEL_DISTANCE = 0.1159f;
+    const Real CRVREntity::INTERWHEEL_DISTANCE = 0.147f;
     const Real CRVREntity::HALF_INTERWHEEL_DISTANCE = INTERWHEEL_DISTANCE * 0.5f;
     const Real CRVREntity::WHEEL_RADIUS = 0.057f;
     const Real CRVREntity::LENGTH_WHEEL_DISTANCE = 0.1539f;

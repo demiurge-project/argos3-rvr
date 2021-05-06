@@ -28,9 +28,18 @@ namespace argos
         virtual void UpdateFromEntityStatus();
 
     private:
+        /**
+         * Reference to the RVR entity
+         */
         CRVREntity &m_cRVREntity;
+        /**
+         * Reference to the wheels entity
+         */
         CWheeledEntity &m_cWheeledEntity;
 
+        /**
+         * Differential steering controller
+         */
         CDynamics2DDifferentialSteeringControl m_cDiffSteering;
 
         cpFloat m_fMass;

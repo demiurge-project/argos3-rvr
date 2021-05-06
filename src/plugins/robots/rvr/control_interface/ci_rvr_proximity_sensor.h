@@ -21,7 +21,7 @@
  *
  *              back
  *
- * @author Lorenzo Garattoni- <lgaratto@ulb.ac.be>
+ * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
 
 #ifndef CCI_RVR_PROXIMITY_SENSOR_H

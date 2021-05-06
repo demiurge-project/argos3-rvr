@@ -14,7 +14,7 @@ set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
   # simulator/epuck_virtual_camrab_default_sensor.h
   # simulator/epuck_ircom_default_actuator.h
   # simulator/epuck_omnidirectional_camera_sensor.h
-  # simulator/epuck_proximity_default_sensor.h
+   simulator/rvr_proximity_default_sensor.h
   # simulator/epuck_battery_sensor.h
   # simulator/epuck_light_default_sensor.h
   # simulator/epuck_range_and_bearing_default_sensor.h
@@ -47,7 +47,7 @@ endif(ARGOS_COMPILE_QTOPENGL)
 #   simulator/epuck_virtual_camrab_default_sensor.cpp
 #   simulator/epuck_ircom_default_actuator.cpp
 #   simulator/epuck_omnidirectional_camera_sensor.cpp
-#   simulator/epuck_proximity_default_sensor.cpp
+   simulator/rvr_proximity_default_sensor.cpp
 #   simulator/epuck_battery_sensor.cpp
 #   simulator/epuck_light_default_sensor.cpp
 #   simulator/epuck_range_and_bearing_default_sensor.cpp
@@ -61,7 +61,7 @@ if(ARGOS_COMPILE_QTOPENGL)
 endif(ARGOS_COMPILE_QTOPENGL)
 
 #
-# Create e-puck plugin
+# Create rvr plugin
 #
 # Create target
 add_library(argos3plugin_${ARGOS_BUILD_FOR}_rvr SHARED
@@ -76,7 +76,7 @@ if(ARGOS_COMPILE_QTOPENGL)
     argos3plugin_${ARGOS_BUILD_FOR}_qtopengl)
 endif(ARGOS_COMPILE_QTOPENGL)
 
-# # Install location for the e-puck plugin
+# # Install location for the rvr plugin
  install(TARGETS argos3plugin_${ARGOS_BUILD_FOR}_rvr
    RUNTIME DESTINATION bin
    LIBRARY DESTINATION lib/argos3

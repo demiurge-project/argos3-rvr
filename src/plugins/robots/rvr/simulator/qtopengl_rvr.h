@@ -4,10 +4,11 @@
  * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
 
-#ifndef QTOPENGL_EPUCK_H
-#define QTOPENGL_EPUCK_H
+#ifndef QTOPENGL_RVR_H
+#define QTOPENGL_RVR_H
 
-namespace argos {
+namespace argos
+{
     class CQTOpenGLRVR;
     class CRVREntity;
 }
@@ -18,18 +19,18 @@ namespace argos {
 #include <GL/gl.h>
 #endif
 
+namespace argos
+{
 
-namespace argos {
-
-    class CQTOpenGLRVR {
+    class CQTOpenGLRVR
+    {
 
     public:
         CQTOpenGLRVR();
         virtual ~CQTOpenGLRVR();
-        virtual void Draw(CRVREntity& c_entity);
+        virtual void Draw(CRVREntity &c_entity);
 
     protected:
-
         /** Renders the robot */
         void Render();
 
@@ -38,12 +39,10 @@ namespace argos {
 
         /** Sets a colored LED material */
         void SetLEDMaterial(GLfloat f_red,
-            GLfloat f_green,
-            GLfloat f_blue);
+                            GLfloat f_green,
+                            GLfloat f_blue);
 
     private:
-
-
         /** Start of the display list index */
         GLuint m_unLists;
 

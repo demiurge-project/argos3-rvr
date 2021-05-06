@@ -1,7 +1,7 @@
 /**
  * @file <argos3/plugins/robots/e-puck/control_interface/ci_rvr_proximity_sensor.cpp>
  *
- * @author Lorenzo Garattoni- <lgaratto@ulb.ac.be>
+ * @author Raffaele Todesco- <raffaele.todesco@ulb.be>
  */
 
 #include "ci_rvr_proximity_sensor.h"

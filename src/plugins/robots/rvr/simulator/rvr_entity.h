@@ -13,6 +13,7 @@ namespace argos
     class CEmbodiedEntity;
     class CLEDEquippedEntity;
     class CGroundSensorEquippedEntity;
+    class CProximitySensorEquippedEntity;
 } // namespace argos
 
 #include <argos3/core/simulator/entity/composable_entity.h>
@@ -58,6 +59,11 @@ namespace argos
             return *m_pcWheeledEntity;
         }
 
+        inline CProximitySensorEquippedEntity &GetProximitySensorEquippedEntity()
+        {
+            return *m_pcProximitySensorEquippedEntity;
+        }
+
         virtual std::string GetTypeDescription() const
         {
             return "rvr";
@@ -68,6 +74,7 @@ namespace argos
         CEmbodiedEntity *m_pcEmbodiedEntity;
         CGroundSensorEquippedEntity *m_pcGroundSensorEquippedEntity;
         CLEDEquippedEntity *m_pcLEDEquippedEntity;
+        CProximitySensorEquippedEntity *m_pcProximitySensorEquippedEntity;
         CWheeledEntity *m_pcWheeledEntity;
 
     public:
@@ -89,6 +96,12 @@ namespace argos
         static const Real LEDS_HEIGHT;
         static const Real LED_INNER_RADIUS;
         static const Real LED_OUTER_RADIUS;
+
+        /** Proximity sensor properties */
+        static const Real PROXIMITY_SENSOR_RING_ELEVATION;
+        static const Real PROXIMITY_SENSOR_RING_RADIUS;
+        static const CRadians PROXIMITY_SENSOR_RING_START_ANGLE;
+        static const Real PROXIMITY_SENSOR_RING_RANGE;
 
         /* Ground sensor */
 

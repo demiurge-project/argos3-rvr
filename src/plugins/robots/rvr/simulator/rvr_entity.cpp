@@ -11,7 +11,7 @@
 #include <argos3/core/simulator/entity/embodied_entity.h>
 #include <argos3/plugins/simulator/entities/ground_sensor_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/led_equipped_entity.h>
-
+#include <argos3/plugins/simulator/entities/proximity_sensor_equipped_entity.h>
 #include <argos3/core/utility/math/general.h>
 
 namespace argos
@@ -30,15 +30,28 @@ namespace argos
     /** LEDs */
     const Real CRVREntity::LEDS_ELEVATION = BODY_HEIGHT * 0.3f;
 
+    /** Proximity sensors */
+    const Real CRVREntity::PROXIMITY_SENSOR_RING_ELEVATION = 0.032f;
+    const Real CRVREntity::PROXIMITY_SENSOR_RING_RADIUS = CRVREntity::BODY_LENGTH + 0.001;
+    const CRadians CRVREntity::PROXIMITY_SENSOR_RING_START_ANGLE = CRadians((ARGOS_PI / 8.0f) * 0.5f);
+    const Real CRVREntity::PROXIMITY_SENSOR_RING_RANGE = 0.05f;
+
     /* Ground sensor */
     const Real CRVREntity::GROUND_SENSOR_OFFSET = 0.05f;
 
+    // const Real CRVREntity::LEDS_POSITIONS[5][2] = {
+    //     {BODY_LENGTH * 0.5f, BODY_WIDTH * 0.5f * 0.2f},    // front right
+    //     {BODY_LENGTH * 0.5f, -(BODY_WIDTH * 0.5f * 0.2f)}, // front left
+    //     {0.0f, BODY_WIDTH * 0.5f},                         // right
+    //     {0.0f, -BODY_WIDTH * 0.5f},                        // left
+    //     {-BODY_LENGTH * 0.5f, 0.0f}                        // back
+    // };
     const Real CRVREntity::LEDS_POSITIONS[5][2] = {
-        {BODY_LENGTH * 0.5f, BODY_WIDTH * 0.5f * 0.2f},    // front right
-        {BODY_LENGTH * 0.5f, -(BODY_WIDTH * 0.5f * 0.2f)}, // front left
-        {0.0f, BODY_WIDTH * 0.5f},                         // right
-        {0.0f, -BODY_WIDTH * 0.5f},                        // left
-        {-BODY_LENGTH * 0.5f, 0.0f}                        // back
+        {BODY_LENGTH * 0.4f, BODY_WIDTH * 0.4f * 0.2f},    // front right
+        {BODY_LENGTH * 0.4f, -(BODY_WIDTH * 0.4f * 0.2f)}, // front left
+        {0.0f, BODY_WIDTH * 0.4f},                         // right
+        {0.0f, -BODY_WIDTH * 0.4f},                        // left
+        {-BODY_LENGTH * 0.4f, 0.0f}                        // back
     };
 
     const Real CRVREntity::LEDS_HEIGHT = 0.01f;
@@ -50,6 +63,7 @@ namespace argos
                                m_pcEmbodiedEntity(NULL),
                                m_pcGroundSensorEquippedEntity(NULL),
                                m_pcLEDEquippedEntity(NULL),
+                               m_pcProximitySensorEquippedEntity(NULL),
                                m_pcWheeledEntity(NULL) {}
 
     CRVREntity::CRVREntity(const std::string &str_id,
@@ -62,6 +76,7 @@ namespace argos
                                                                m_pcEmbodiedEntity(NULL),
                                                                m_pcGroundSensorEquippedEntity(NULL),
                                                                m_pcLEDEquippedEntity(NULL),
+                                                               m_pcProximitySensorEquippedEntity(NULL),
                                                                m_pcWheeledEntity(NULL)
     {
 
@@ -93,6 +108,19 @@ namespace argos
             }
 
             m_pcLEDEquippedEntity->Disable();
+
+            /* Proximity sensor equipped entity */
+            m_pcProximitySensorEquippedEntity =
+                new CProximitySensorEquippedEntity(this,
+                                                   "proximity_0");
+            AddComponent(*m_pcProximitySensorEquippedEntity);
+            m_pcProximitySensorEquippedEntity->AddSensorRing(
+                CVector3(0.0f, 0.0f, PROXIMITY_SENSOR_RING_ELEVATION),
+                PROXIMITY_SENSOR_RING_RADIUS,
+                PROXIMITY_SENSOR_RING_START_ANGLE,
+                PROXIMITY_SENSOR_RING_RANGE,
+                8,
+                m_pcEmbodiedEntity->GetOriginAnchor());
 
             /* Ground color sensor entity */
             m_pcGroundSensorEquippedEntity = new CGroundSensorEquippedEntity(this,
@@ -148,6 +176,19 @@ namespace argos
             }
 
             m_pcLEDEquippedEntity->Disable();
+
+            /* Proximity sensor equipped entity */
+            m_pcProximitySensorEquippedEntity =
+                new CProximitySensorEquippedEntity(this,
+                                                   "proximity_0");
+            AddComponent(*m_pcProximitySensorEquippedEntity);
+            m_pcProximitySensorEquippedEntity->AddSensorRing(
+                CVector3(0.0f, 0.0f, PROXIMITY_SENSOR_RING_ELEVATION),
+                PROXIMITY_SENSOR_RING_RADIUS,
+                PROXIMITY_SENSOR_RING_START_ANGLE,
+                PROXIMITY_SENSOR_RING_RANGE,
+                8,
+                m_pcEmbodiedEntity->GetOriginAnchor());
 
             /* Ground color sensor entity */
             m_pcGroundSensorEquippedEntity = new CGroundSensorEquippedEntity(this,

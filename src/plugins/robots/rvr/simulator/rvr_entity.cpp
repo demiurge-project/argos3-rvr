@@ -34,7 +34,7 @@ namespace argos
     const Real CRVREntity::PROXIMITY_SENSOR_RING_ELEVATION = 0.032f;
     const Real CRVREntity::PROXIMITY_SENSOR_RING_RADIUS = sqrt(CRVREntity::BODY_LENGTH) + 0.001;
     const CRadians CRVREntity::PROXIMITY_SENSOR_RING_START_ANGLE = CRadians((ARGOS_PI / 8.0f) * 0.5f);
-    const Real CRVREntity::PROXIMITY_SENSOR_RING_RANGE = 0.05f;
+    const Real CRVREntity::PROXIMITY_SENSOR_RING_RANGE = 2.0f;
 
     /* Ground sensor */
     const Real CRVREntity::GROUND_SENSOR_OFFSET = 0.05f;

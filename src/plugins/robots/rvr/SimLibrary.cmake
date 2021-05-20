@@ -15,6 +15,7 @@ set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
   # simulator/epuck_ircom_default_actuator.h
   # simulator/epuck_omnidirectional_camera_sensor.h
    simulator/rvr_proximity_default_sensor.h
+   simulator/rvr_lidar_sensor.h
   # simulator/epuck_battery_sensor.h
   # simulator/epuck_light_default_sensor.h
   # simulator/epuck_range_and_bearing_default_sensor.h
@@ -48,6 +49,7 @@ endif(ARGOS_COMPILE_QTOPENGL)
 #   simulator/epuck_ircom_default_actuator.cpp
 #   simulator/epuck_omnidirectional_camera_sensor.cpp
    simulator/rvr_proximity_default_sensor.cpp
+   simulator/rvr_lidar_sensor.cpp
 #   simulator/epuck_battery_sensor.cpp
 #   simulator/epuck_light_default_sensor.cpp
 #   simulator/epuck_range_and_bearing_default_sensor.cpp

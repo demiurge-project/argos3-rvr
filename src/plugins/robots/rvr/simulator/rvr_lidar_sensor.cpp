@@ -1,5 +1,5 @@
 /**
- * @file <argos3/plugins/robots/rvr/simulator/rvr_proximity_default_sensor.cpp>
+ * @file <argos3/plugins/robots/rvr/simulator/rvr_lidar_sensor.cpp>
  *
  * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
@@ -9,7 +9,7 @@
 #include <argos3/core/simulator/entity/composable_entity.h>
 #include <argos3/plugins/simulator/entities/proximity_sensor_equipped_entity.h>
 
-#include "rvr_proximity_default_sensor.h"
+#include "rvr_lidar_sensor.h"
 
 namespace argos
 {
@@ -17,27 +17,27 @@ namespace argos
     /****************************************/
     /****************************************/
 
-    static CRange<Real> UNIT(0.0f, 2.0f);
+    static CRange<Real> UNIT(0.0f, 12.0f);
 
     /****************************************/
     /****************************************/
 
-    CRVRProximityDefaultSensor::CRVRProximityDefaultSensor() : m_pcEmbodiedEntity(NULL),
-                                                               m_bShowRays(false),
-                                                               m_pcRNG(NULL),
-                                                               m_bAddNoise(false),
-                                                               m_cSpace(CSimulator::GetInstance().GetSpace())
+    CRVRLidarSensor::CRVRLidarSensor() : m_pcEmbodiedEntity(NULL),
+                                         m_bShowRays(false),
+                                         m_pcRNG(NULL),
+                                         m_bAddNoise(false),
+                                         m_cSpace(CSimulator::GetInstance().GetSpace())
     {
     }
 
     /****************************************/
     /****************************************/
 
-    void CRVRProximityDefaultSensor::Init(TConfigurationNode &t_tree)
+    void CRVRLidarSensor::Init(TConfigurationNode &t_tree)
     {
         try
         {
-            CCI_RVRProximitySensor::Init(t_tree);
+            CCI_RVRLidarSensor::Init(t_tree);
             /* Show rays? */
             GetNodeAttributeOrDefault(t_tree, "show_rays", m_bShowRays, m_bShowRays);
             /* Parse noise level */
@@ -54,18 +54,18 @@ namespace argos
                 m_cNoiseRange.Set(-fNoiseLevel, fNoiseLevel);
                 m_pcRNG = CRandom::CreateRNG("argos");
             }
-            m_tReadings.resize(8); // take only the first 8 sensors which is the sensor ring
+            m_tReadings.resize(719); // will store only Lidar measurements
         }
         catch (CARGoSException &ex)
         {
-            THROW_ARGOSEXCEPTION_NESTED("Initialization error in rvr default proximity sensor", ex);
+            THROW_ARGOSEXCEPTION_NESTED("Initialization error in rvr lidar sensor", ex);
         }
     }
 
     /****************************************/
     /****************************************/
 
-    void CRVRProximityDefaultSensor::SetRobot(CComposableEntity &c_entity)
+    void CRVRLidarSensor::SetRobot(CComposableEntity &c_entity)
     {
         try
         {
@@ -83,7 +83,7 @@ namespace argos
     /****************************************/
     /****************************************/
 
-    void CRVRProximityDefaultSensor::Update()
+    void CRVRLidarSensor::Update()
     {
         /* Ray used for scanning the environment for obstacles */
         CRay3 cScanningRay;
@@ -91,14 +91,17 @@ namespace argos
         /* Buffers to contain data about the intersection */
         SEmbodiedEntityIntersectionItem sIntersection;
         /* Go through the sensors */
+        /* skip the first 8 that are the sensor ring */
+        UInt32 offset = 8;
+
         for (UInt32 i = 0; i < m_tReadings.size(); ++i)
         {
             /* Compute ray for sensor i */
-            cRayStart = m_pcProximityEntity->GetSensor(i).Offset;
+            cRayStart = m_pcProximityEntity->GetSensor(i + offset).Offset;
             cRayStart.Rotate(m_pcEmbodiedEntity->GetOriginAnchor().Orientation);
             cRayStart += m_pcEmbodiedEntity->GetOriginAnchor().Position;
-            cRayEnd = m_pcProximityEntity->GetSensor(i).Offset;
-            cRayEnd += m_pcProximityEntity->GetSensor(i).Direction;
+            cRayEnd = m_pcProximityEntity->GetSensor(i + offset).Offset;
+            cRayEnd += m_pcProximityEntity->GetSensor(i + offset).Direction;
             cRayEnd.Rotate(m_pcEmbodiedEntity->GetOriginAnchor().Orientation);
             cRayEnd += m_pcEmbodiedEntity->GetOriginAnchor().Position;
             cScanningRay.Set(cRayStart, cRayEnd);
@@ -139,7 +142,7 @@ namespace argos
     /****************************************/
     /****************************************/
 
-    void CRVRProximityDefaultSensor::Reset()
+    void CRVRLidarSensor::Reset()
     {
         for (UInt32 i = 0; i < GetReadings().size(); ++i)
         {
@@ -150,22 +153,26 @@ namespace argos
     /****************************************/
     /****************************************/
 
-    Real CRVRProximityDefaultSensor::CalculateReading(Real f_distance)
+    Real CRVRLidarSensor::CalculateReading(Real f_distance)
     {
+
+        // value is :
+        // 0 if the sensor is too close to the object
+        // 12 if there are no objects in range
+        // the distance otherwise
+        // this is based on my quick empirical analysis of the sensor,
+        // these values should maybe be adapted
+        // especially the out of range value that I could not test and only deduce
         Real value = 0.0f;
-        if (0.05 <= f_distance && f_distance <= 2.0) // range of terabee : 0.05 - 2 meters
+        if (0.1 <= f_distance && f_distance <= 10) // range of ydlidar X4 : 0.1 - 10 meters
         {
             value = f_distance;
         }
         else
         {
-            if (f_distance <= 0.05)
+            if (f_distance > 10)
             {
-                value = -std::numeric_limits<Real>::infinity();
-            }
-            else
-            {
-                value = std::numeric_limits<Real>::infinity();
+                value = 12.0f;
             }
         }
         return value;
@@ -174,16 +181,16 @@ namespace argos
     /****************************************/
     /****************************************/
 
-    REGISTER_SENSOR(CRVRProximityDefaultSensor,
-                    "rvr_proximity", "default",
+    REGISTER_SENSOR(CRVRLidarSensor,
+                    "rvr_lidar", "default",
                     "Raffaele Todesco [raffaele.todesco@ulb.be]",
                     "1.0",
-                    "The rvr proximity sensor",
+                    "The rvr lidar X4 sensor",
                     "This sensor accesses a set of proximity sensors. The sensors all return a value\n"
-                    "between -inf and inf, where inf means nothing within range and -inf means an external\n"
-                    "object is touching the sensor. Values between 0.05 and 2.0 are the distance between\n"
+                    "between 0 and 12, where 12 means nothing within range and 0 means an external\n"
+                    "object is touching the sensor. Values between 0.1 and 10.0 are the distance between\n"
                     "the occluding object and the sensor.\n"
-                    "For usage, refer to [ci_rvr_proximity_sensor.h]\n\n"
+                    "For usage, refer to [ci_rvr_lidar_sensor.h]\n\n"
                     "REQUIRED XML CONFIGURATION\n\n"
                     "   <controllers>\n"
                     "      ...\n"

@@ -36,16 +36,15 @@ namespace argos
     const CRadians CRVREntity::PROXIMITY_SENSOR_RING_START_ANGLE = CRadians((ARGOS_PI / 8.0f) * 0.5f);
     const Real CRVREntity::PROXIMITY_SENSOR_RING_RANGE = 2.0f;
 
+    /** Lidar */
+    const Real CRVREntity::LIDAR_ELEVATION = 0.04f;
+    const Real CRVREntity::LIDAR_RADIUS = 0.035f;
+    const CRadians CRVREntity::LIDAR_START_ANGLE = CRadians((ARGOS_PI / 8.0f) * 0.5f);
+    const Real CRVREntity::LIDAR_RANGE = 10.0f;
+
     /* Ground sensor */
     const Real CRVREntity::GROUND_SENSOR_OFFSET = 0.05f;
 
-    // const Real CRVREntity::LEDS_POSITIONS[5][2] = {
-    //     {BODY_LENGTH * 0.5f, BODY_WIDTH * 0.5f * 0.2f},    // front right
-    //     {BODY_LENGTH * 0.5f, -(BODY_WIDTH * 0.5f * 0.2f)}, // front left
-    //     {0.0f, BODY_WIDTH * 0.5f},                         // right
-    //     {0.0f, -BODY_WIDTH * 0.5f},                        // left
-    //     {-BODY_LENGTH * 0.5f, 0.0f}                        // back
-    // };
     const Real CRVREntity::LEDS_POSITIONS[5][2] = {
         {BODY_LENGTH * 0.4f, BODY_WIDTH * 0.4f * 0.2f},    // front right
         {BODY_LENGTH * 0.4f, -(BODY_WIDTH * 0.4f * 0.2f)}, // front left
@@ -121,6 +120,12 @@ namespace argos
                 PROXIMITY_SENSOR_RING_RANGE,
                 8,
                 m_pcEmbodiedEntity->GetOriginAnchor());
+            m_pcProximitySensorEquippedEntity->AddSensorRing(CVector3(0.0f, 0.0f, LIDAR_ELEVATION),
+                                                             LIDAR_RADIUS,
+                                                             LIDAR_START_ANGLE,
+                                                             LIDAR_RANGE,
+                                                             719,
+                                                             m_pcEmbodiedEntity->GetOriginAnchor());
 
             /* Ground color sensor entity */
             m_pcGroundSensorEquippedEntity = new CGroundSensorEquippedEntity(this,
@@ -190,6 +195,12 @@ namespace argos
                 8,
                 m_pcEmbodiedEntity->GetOriginAnchor());
 
+            m_pcProximitySensorEquippedEntity->AddSensorRing(CVector3(0.0f, 0.0f, LIDAR_ELEVATION),
+                                                             LIDAR_RADIUS,
+                                                             LIDAR_START_ANGLE,
+                                                             LIDAR_RANGE,
+                                                             719,
+                                                             m_pcEmbodiedEntity->GetOriginAnchor());
             /* Ground color sensor entity */
             m_pcGroundSensorEquippedEntity = new CGroundSensorEquippedEntity(this,
                                                                              "ground_0");

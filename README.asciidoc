@@ -1,4 +1,4 @@
-ARGoS-Epuck README
+ARGoS-RVR README
 ===================
 :Author: Raffaele Todesco
 :Email:  raffaele.todesco@ulb.be

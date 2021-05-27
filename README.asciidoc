@@ -1,0 +1,47 @@
+ARGoS-Epuck README
+===================
+:Author: Raffaele Todesco
+:Email:  raffaele.todesco@ulb.be
+:Date:   May 27th, 2021
+
+What is ARGoS-RVR?
+--------------------
+
+ARGoS-RVR is a plugin that enables the use of the RVR robot in ARGoS. ARGoS-RVR contains
+the software modules for both the physical robot and its simulated version. Therefore, the
+user can develop a control software for the RVR and test it in a virtual environment and then port
+the same control software, without modifications, on the real RVR. In order to be used on the
+real RVR, the plugin requires the robots to be equipped with a Raspberry Pi as microcontroller.
+
+Downloading ARGoS-RVR
+-----------------------
+
+You can download the development sources through git:
+
+ $ git clone https://github.com/rafftod/argos3-rvr.git argos3-rvr
+
+Compiling ARGoS-RVR
+---------------------
+
+Requirements
+~~~~~~~~~~~~
+
+Before executing the following commands, you need to download, compile, and install argos3: https://github.com/ilpincy/argos3
+
+Compiling the code
+~~~~~~~~~~~~~~~~~~
+
+The compilation of ARGoS is configured through CMake.
+
+Compiling and installing the plugin
++++++++++++++++++++++++++++
+
+ $ cd argos3-rvr
+ $ mkdir build
+ $ cd build
+ $ cmake ../src
+ $ make
+ $ sudo make install
+
+If you wish to load the library without installing:
+$ export ARGOS_PLUGIN_PATH=build_simepuck/plugins/robots/rvr

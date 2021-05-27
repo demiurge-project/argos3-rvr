@@ -1,5 +1,5 @@
 ARGoS-RVR README
-===================
+================
 :Author: Raffaele Todesco
 :Email:  raffaele.todesco@ulb.be
 :Date:   May 27th, 2021

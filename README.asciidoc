@@ -21,6 +21,28 @@ This currently implements :
 * Proximity sensors
 * LIDAR
 
+This was tested and developed under ARGoS 3 beta 48, with Ubuntu 20.04.
+
+Architecture
+------------
+
+....
+src/
+├─ plugins/
+│  ├─ robots/
+│  │  ├─ rvr/
+│  │  │  ├─ control_interface/
+│  │  │  ├─ simulator/
+....
+
+* The `control_interface` directory contains the definition of all sensors and actuators. These are the interfaces that will be included in the controllers.
+* The `simulator` directory includes :
+** The 3D model and material of the robot, respectively in `sphero_rvrOBJ.h` and `sphero_rvrMTL.h`
+** The physics model of the robot, in `dynamics2d_rvr_model.h/.cpp`
+** The main RVR entity that is instantiated in the simulator in `rvr_entity.h/.cpp`
+** Every implementation of simulated sensors and actuators
+
+
 Downloading ARGoS-RVR
 ---------------------
 

@@ -13,6 +13,14 @@ user can develop a control software for the RVR and test it in a virtual environ
 the same control software, without modifications, on the real RVR. In order to be used on the
 real RVR, the plugin requires the robots to be equipped with a Raspberry Pi as microcontroller.
 
+This currently implements :
+
+* Ground color sensor
+* Wheels actuator
+* RGB LEDs actuator
+* Proximity sensors
+* LIDAR
+
 Downloading ARGoS-RVR
 ---------------------
 

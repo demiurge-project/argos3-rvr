@@ -19,13 +19,13 @@ elseif(ARGOS_BUILD_FOR_RVR)
 endif()
 
 #
-# Check for Lua 5.3
+# Check for Lua 5.2
 #
 IF(NOT ARGOS_BUILD_FOR_RVR)
-  find_package(Lua53)
-  if(LUA53_FOUND)
+  find_package(Lua52)
+  if(LUA52_FOUND)
     include_directories(${LUA_INCLUDE_DIR})
-  endif(LUA53_FOUND)
+  endif(LUA52_FOUND)
 endif (NOT ARGOS_BUILD_FOR_RVR)
 
 #

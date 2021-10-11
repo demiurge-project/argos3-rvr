@@ -12,6 +12,8 @@
 #include <argos3/plugins/simulator/entities/ground_sensor_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/led_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/proximity_sensor_equipped_entity.h>
+#include "./rvr_quaternion_equipped_entity.h"
+#include "./rvr_quaternion_sensor.h"
 #include <argos3/core/utility/math/general.h>
 
 namespace argos
@@ -63,6 +65,7 @@ namespace argos
                                m_pcGroundSensorEquippedEntity(NULL),
                                m_pcLEDEquippedEntity(NULL),
                                m_pcProximitySensorEquippedEntity(NULL),
+                               m_pcQuaternionEquippedEntity(NULL),
                                m_pcWheeledEntity(NULL) {}
 
     CRVREntity::CRVREntity(const std::string &str_id,
@@ -76,6 +79,7 @@ namespace argos
                                                                m_pcGroundSensorEquippedEntity(NULL),
                                                                m_pcLEDEquippedEntity(NULL),
                                                                m_pcProximitySensorEquippedEntity(NULL),
+                                                               m_pcQuaternionEquippedEntity(NULL),
                                                                m_pcWheeledEntity(NULL)
     {
 
@@ -134,6 +138,9 @@ namespace argos
             // TODO : update real position
             m_pcGroundSensorEquippedEntity->AddSensor(CVector2(GROUND_SENSOR_OFFSET, 0.0f),
                                                       CGroundSensorEquippedEntity::TYPE_GRAYSCALE, m_pcEmbodiedEntity->GetOriginAnchor());
+
+            m_pcQuaternionEquippedEntity = new CRVRQuaternionEquippedEntity(this, "rvr_quaternion_0");
+            AddComponent(*m_pcQuaternionEquippedEntity);
             /** Controllable entity
              * Must be added last for sensors and actuators to link correctly
              */
@@ -208,6 +215,10 @@ namespace argos
             // TODO : update real position
             m_pcGroundSensorEquippedEntity->AddSensor(CVector2(GROUND_SENSOR_OFFSET, 0.0f),
                                                       CGroundSensorEquippedEntity::TYPE_GRAYSCALE, m_pcEmbodiedEntity->GetOriginAnchor());
+
+
+            m_pcQuaternionEquippedEntity = new CRVRQuaternionEquippedEntity(this, "rvr_quaternion_0");
+            AddComponent(*m_pcQuaternionEquippedEntity);
 
             /** Controllable entity
              * Must be added last for sensors and actuators to link correctly

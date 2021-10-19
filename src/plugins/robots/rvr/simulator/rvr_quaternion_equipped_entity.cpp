@@ -6,41 +6,41 @@
 #include "rvr_quaternion_equipped_entity.h"
 #include <argos3/core/simulator/space/space.h>
 
-namespace argos {
-
-/****************************************/
-/****************************************/
-
-
-CQuaternion CRVRQuaternionEquippedEntity::GetOrientation() const
+namespace argos
 {
-    return m_fOrientation;
-}
 
-void CRVRQuaternionEquippedEntity::setOrientation(const CQuaternion &fRotation)
-{
-    m_fOrientation = fRotation;
-}
-CRVRQuaternionEquippedEntity::CRVRQuaternionEquippedEntity(CComposableEntity* pc_parent) :
-    CEntity(pc_parent),
-    m_fOrientation(CQuaternion()){
-}
+    /****************************************/
+    /****************************************/
 
-/****************************************/
-/****************************************/
+    CQuaternion CRVRQuaternionEquippedEntity::GetOrientation() const
+    {
+        return m_fOrientation;
+    }
 
-CRVRQuaternionEquippedEntity::CRVRQuaternionEquippedEntity(CComposableEntity* pc_parent,
-                                               const std::string& str_id) :
-    CEntity(pc_parent, str_id),
-    m_fOrientation(CQuaternion()){
-}
+    void CRVRQuaternionEquippedEntity::setOrientation(const CQuaternion &fRotation)
+    {
+        m_fOrientation = fRotation;
+    }
+    CRVRQuaternionEquippedEntity::CRVRQuaternionEquippedEntity(CComposableEntity *pc_parent) : CEntity(pc_parent),
+                                                                                               m_fOrientation(CQuaternion())
+    {
+    }
 
-/****************************************/
-/****************************************/
+    /****************************************/
+    /****************************************/
 
-REGISTER_STANDARD_SPACE_OPERATIONS_ON_ENTITY(CRVRQuaternionEquippedEntity);
+    CRVRQuaternionEquippedEntity::CRVRQuaternionEquippedEntity(CComposableEntity *pc_parent,
+                                                               const std::string &str_id) : CEntity(pc_parent, str_id),
+                                                                                            m_fOrientation(CQuaternion())
+    {
+    }
 
-/****************************************/
-/****************************************/
+    /****************************************/
+    /****************************************/
+
+    REGISTER_STANDARD_SPACE_OPERATIONS_ON_ENTITY(CRVRQuaternionEquippedEntity);
+
+    /****************************************/
+    /****************************************/
 
 }

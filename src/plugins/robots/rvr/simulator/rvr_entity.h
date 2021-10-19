@@ -15,6 +15,8 @@ namespace argos
     class CGroundSensorEquippedEntity;
     class CProximitySensorEquippedEntity;
     class CRVRQuaternionEquippedEntity;
+    class CRVRIMUEquippedEntity;
+    class CLightSensorEquippedEntity;
 } // namespace argos
 
 #include <argos3/core/simulator/entity/composable_entity.h>
@@ -70,7 +72,15 @@ namespace argos
             return *m_pcQuaternionEquippedEntity;
         }
 
+        inline CRVRIMUEquippedEntity &GetCRVRIMUEquippedEntity()
+        {
+            return *m_pcIMUEquippedEntity;
+        }
 
+        inline CLightSensorEquippedEntity &GetLightSensorEquippedEntity()
+        {
+            return *m_pcLightSensorEquippedEntity;
+        }
 
         virtual std::string GetTypeDescription() const
         {
@@ -84,6 +94,8 @@ namespace argos
         CLEDEquippedEntity *m_pcLEDEquippedEntity;
         CProximitySensorEquippedEntity *m_pcProximitySensorEquippedEntity;
         CRVRQuaternionEquippedEntity *m_pcQuaternionEquippedEntity;
+        CRVRIMUEquippedEntity *m_pcIMUEquippedEntity;
+        CLightSensorEquippedEntity *m_pcLightSensorEquippedEntity;
         CWheeledEntity *m_pcWheeledEntity;
 
     public:

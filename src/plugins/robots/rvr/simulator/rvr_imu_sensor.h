@@ -3,16 +3,16 @@
  *
  */
 
-#ifndef RVR_QUATERNION_SENSOR_H
-#define RVR_QUATERNION_SENSOR_H
+#ifndef RVR_IMU_SENSOR_H
+#define RVR_IMU_SENSOR_H
 
 namespace argos
 {
-    class CRVRQuaternionSensor;
-    class CRVRQuaternionEquippedEntity;
+    class CRVRIMUSensor;
+    class CRVRIMUEquippedEntity;
 }
 
-#include "../control_interface/ci_rvr_quaternion_sensor.h"
+#include "../control_interface/ci_rvr_imu_sensor.h"
 #include <argos3/core/utility/math/range.h>
 #include <argos3/core/utility/math/rng.h>
 #include <argos3/core/simulator/space/space.h>
@@ -21,14 +21,14 @@ namespace argos
 namespace argos
 {
 
-    class CRVRQuaternionSensor : public CSimulatedSensor,
-                                 public CCI_RVRQuaternionSensor
+    class CRVRIMUSensor : public CSimulatedSensor,
+                                 public CCI_RVRIMUSensor
     {
 
     public:
-        CRVRQuaternionSensor();
+        CRVRIMUSensor();
 
-        virtual ~CRVRQuaternionSensor() {}
+        virtual ~CRVRIMUSensor() {}
 
         virtual void SetRobot(CComposableEntity &c_entity);
         virtual void Init(TConfigurationNode &t_tree);
@@ -37,7 +37,7 @@ namespace argos
 
     private:
         /** Reference to quaternion sensor equipped entity associated to this sensor */
-        CRVRQuaternionEquippedEntity *m_pcQuaternionEntity;
+        CRVRIMUEquippedEntity *m_pcImuEntity;
 
         /** Reference to the embodied entity */
         CEmbodiedEntity *m_pcEmbodiedEntity;

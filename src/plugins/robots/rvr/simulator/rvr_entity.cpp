@@ -11,9 +11,12 @@
 #include <argos3/core/simulator/entity/embodied_entity.h>
 #include <argos3/plugins/simulator/entities/ground_sensor_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/led_equipped_entity.h>
+#include <argos3/plugins/simulator/entities/light_sensor_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/proximity_sensor_equipped_entity.h>
 #include "./rvr_quaternion_equipped_entity.h"
 #include "./rvr_quaternion_sensor.h"
+#include "./rvr_imu_equipped_entity.h"
+#include "./rvr_imu_sensor.h"
 #include <argos3/core/utility/math/general.h>
 
 namespace argos
@@ -66,6 +69,8 @@ namespace argos
                                m_pcLEDEquippedEntity(NULL),
                                m_pcProximitySensorEquippedEntity(NULL),
                                m_pcQuaternionEquippedEntity(NULL),
+                               m_pcIMUEquippedEntity(NULL),
+                               m_pcLightSensorEquippedEntity(NULL),
                                m_pcWheeledEntity(NULL) {}
 
     CRVREntity::CRVREntity(const std::string &str_id,
@@ -80,6 +85,8 @@ namespace argos
                                                                m_pcLEDEquippedEntity(NULL),
                                                                m_pcProximitySensorEquippedEntity(NULL),
                                                                m_pcQuaternionEquippedEntity(NULL),
+                                                               m_pcIMUEquippedEntity(NULL),
+                                                               m_pcLightSensorEquippedEntity(NULL),
                                                                m_pcWheeledEntity(NULL)
     {
 
@@ -141,6 +148,21 @@ namespace argos
 
             m_pcQuaternionEquippedEntity = new CRVRQuaternionEquippedEntity(this, "rvr_quaternion_0");
             AddComponent(*m_pcQuaternionEquippedEntity);
+
+            m_pcIMUEquippedEntity = new CRVRIMUEquippedEntity(this, "rvr_imu_0");
+            AddComponent(*m_pcIMUEquippedEntity);
+
+            /* Light sensor equipped entity */
+            m_pcLightSensorEquippedEntity =
+                new CLightSensorEquippedEntity(this,
+                                               "light_0");
+            AddComponent(*m_pcLightSensorEquippedEntity);
+            m_pcLightSensorEquippedEntity->AddSensorRing(CVector3(0.0f, 0.0f, PROXIMITY_SENSOR_RING_ELEVATION),
+                                                         0.05f,
+                                                         CRadians::PI / 0.5456,
+                                                         2.5f,
+                                                         1,
+                                                         m_pcEmbodiedEntity->GetOriginAnchor());
             /** Controllable entity
              * Must be added last for sensors and actuators to link correctly
              */
@@ -216,10 +238,23 @@ namespace argos
             m_pcGroundSensorEquippedEntity->AddSensor(CVector2(GROUND_SENSOR_OFFSET, 0.0f),
                                                       CGroundSensorEquippedEntity::TYPE_GRAYSCALE, m_pcEmbodiedEntity->GetOriginAnchor());
 
-
             m_pcQuaternionEquippedEntity = new CRVRQuaternionEquippedEntity(this, "rvr_quaternion_0");
             AddComponent(*m_pcQuaternionEquippedEntity);
 
+            m_pcIMUEquippedEntity = new CRVRIMUEquippedEntity(this, "rvr_imu_0");
+            AddComponent(*m_pcIMUEquippedEntity);
+
+            /* Light sensor equipped entity */
+            m_pcLightSensorEquippedEntity =
+                new CLightSensorEquippedEntity(this,
+                                               "light_0");
+            AddComponent(*m_pcLightSensorEquippedEntity);
+            m_pcLightSensorEquippedEntity->AddSensorRing(CVector3(0.0f, 0.0f, PROXIMITY_SENSOR_RING_ELEVATION),
+                                                         0.5f,
+                                                         CRadians::PI / 0.5456,
+                                                         2.5f,
+                                                         1,
+                                                         m_pcEmbodiedEntity->GetOriginAnchor());
             /** Controllable entity
              * Must be added last for sensors and actuators to link correctly
              */

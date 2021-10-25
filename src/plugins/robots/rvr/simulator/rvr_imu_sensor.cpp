@@ -23,7 +23,7 @@ namespace argos
 
     void CRVRIMUSensor::Init(TConfigurationNode &t_tree)
     {
-        CRVRIMUSensor::Init(t_tree);
+        CCI_RVRIMUSensor::Init(t_tree);
     }
 
     /****************************************/
@@ -60,8 +60,7 @@ namespace argos
 
     void CRVRIMUSensor::Reset()
     {
-        
-    }
+        }
 
     /****************************************/
     /****************************************/

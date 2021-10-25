@@ -1,5 +1,5 @@
 /**
- * @file <argos3/plugins/robots/rvr/simulator/rvr_quaternion_sensor.h>
+ * @file <argos3/plugins/robots/rvr/simulator/rvr_imu_sensor.h>
  *
  */
 
@@ -22,7 +22,7 @@ namespace argos
 {
 
     class CRVRIMUSensor : public CSimulatedSensor,
-                                 public CCI_RVRIMUSensor
+                          public CCI_RVRIMUSensor
     {
 
     public:
@@ -37,7 +37,7 @@ namespace argos
 
     private:
         /** Reference to quaternion sensor equipped entity associated to this sensor */
-        CRVRIMUEquippedEntity *m_pcImuEntity;
+        //CRVRIMUEquippedEntity *m_pcImuEntity;
 
         /** Reference to the embodied entity */
         CEmbodiedEntity *m_pcEmbodiedEntity;

@@ -157,7 +157,7 @@ namespace argos
                     }
                     /* Get the distance between the light and the rvr */
                     cOcclusionCheckRay.ToVector(cRobotToLight);
-                    std::cout << cRobotToLight << std::endl;
+
                     /*
                 * Linearly scale the distance with the light intensity
                 * The greater the intensity, the smaller the distance

@@ -33,9 +33,8 @@ namespace argos
     {
         try
         {
-            m_pcImuEntity = &(c_entity.GetComponent<CRVRIMUEquippedEntity>("rvr_imu"));
+            //m_pcImuEntity = &(c_entity.GetComponent<CRVRIMUEquippedEntity>("rvr_imu"));
             m_pcEmbodiedEntity = &(c_entity.GetComponent<CEmbodiedEntity>("body"));
-            m_pcImuEntity->Enable();
         }
         catch (CARGoSException &ex)
         {
@@ -60,7 +59,7 @@ namespace argos
 
     void CRVRIMUSensor::Reset()
     {
-        }
+    }
 
     /****************************************/
     /****************************************/

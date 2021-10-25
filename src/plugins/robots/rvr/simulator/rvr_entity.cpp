@@ -69,7 +69,6 @@ namespace argos
                                m_pcLEDEquippedEntity(NULL),
                                m_pcProximitySensorEquippedEntity(NULL),
                                m_pcQuaternionEquippedEntity(NULL),
-                               m_pcIMUEquippedEntity(NULL),
                                m_pcLightSensorEquippedEntity(NULL),
                                m_pcWheeledEntity(NULL) {}
 
@@ -85,7 +84,6 @@ namespace argos
                                                                m_pcLEDEquippedEntity(NULL),
                                                                m_pcProximitySensorEquippedEntity(NULL),
                                                                m_pcQuaternionEquippedEntity(NULL),
-                                                               m_pcIMUEquippedEntity(NULL),
                                                                m_pcLightSensorEquippedEntity(NULL),
                                                                m_pcWheeledEntity(NULL)
     {
@@ -148,9 +146,6 @@ namespace argos
 
             m_pcQuaternionEquippedEntity = new CRVRQuaternionEquippedEntity(this, "rvr_quaternion_0");
             AddComponent(*m_pcQuaternionEquippedEntity);
-
-            m_pcIMUEquippedEntity = new CRVRIMUEquippedEntity(this, "rvr_imu_0");
-            AddComponent(*m_pcIMUEquippedEntity);
 
             /* Light sensor equipped entity */
             m_pcLightSensorEquippedEntity =
@@ -240,9 +235,6 @@ namespace argos
 
             m_pcQuaternionEquippedEntity = new CRVRQuaternionEquippedEntity(this, "rvr_quaternion_0");
             AddComponent(*m_pcQuaternionEquippedEntity);
-
-            m_pcIMUEquippedEntity = new CRVRIMUEquippedEntity(this, "rvr_imu_0");
-            AddComponent(*m_pcIMUEquippedEntity);
 
             /* Light sensor equipped entity */
             m_pcLightSensorEquippedEntity =

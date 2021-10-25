@@ -12,7 +12,7 @@ set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
    simulator/rvr_quaternion_sensor.h
    simulator/rvr_quaternion_equipped_entity.h
    simulator/rvr_imu_sensor.h
-   simulator/rvr_imu_equipped_entity.h
+   # simulator/rvr_imu_equipped_entity.h
    simulator/rvr_light_sensor.h
    simulator/rvr_velocity_sensor.h
    simulator/rvr_ground_color_sensor.h)
@@ -40,7 +40,7 @@ endif(ARGOS_COMPILE_QTOPENGL)
    simulator/rvr_quaternion_sensor.cpp
    simulator/rvr_quaternion_equipped_entity.cpp
    simulator/rvr_imu_sensor.cpp
-   simulator/rvr_imu_equipped_entity.cpp
+   # simulator/rvr_imu_equipped_entity.cpp
    simulator/rvr_light_sensor.cpp
    simulator/rvr_velocity_sensor.cpp
     simulator/rvr_ground_color_sensor.cpp)

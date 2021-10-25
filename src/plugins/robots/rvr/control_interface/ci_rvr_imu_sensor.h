@@ -27,7 +27,7 @@ namespace argos
   {
 
   private:
-    public:
+  public:
     /**
        * Single quaternion reading
        */
@@ -51,7 +51,7 @@ namespace argos
       /**
           * Empty constructor, every angle is 0 at start
           */
-      SReading() : Pitch(), Roll(), Yaw() {}
+      SReading() : Pitch(CRadians::ZERO), Roll(CRadians::ZERO), Yaw(CRadians::ZERO) {}
     };
 
   public:

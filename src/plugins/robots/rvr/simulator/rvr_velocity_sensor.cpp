@@ -57,6 +57,8 @@ namespace argos
         // convert to z angle
         CRadians cTmp1, cTmp2, cRotZ;
         relativeOrientation.ToEulerAngles(cRotZ, cTmp1, cTmp2);
+        // add 90 degrees since Y is forward
+        cRotZ += CRadians::PI_OVER_TWO;
         // Project on X and Y to get readings
         m_tReading.XVelocity = velocity * Cos(cRotZ);
         m_tReading.YVelocity = velocity * Sin(cRotZ);

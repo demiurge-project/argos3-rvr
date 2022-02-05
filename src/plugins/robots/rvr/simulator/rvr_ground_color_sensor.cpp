@@ -18,6 +18,8 @@ namespace argos
     CRVRGroundColorSensor::CRVRGroundColorSensor() : m_pcEmbodiedEntity(NULL),
                                                      m_pcFloorEntity(NULL),
                                                      m_pcGroundSensorEntity(NULL),
+                                                     m_pcRNG(NULL),
+                                                     m_bAddNoise(false),
                                                      m_cSpace(CSimulator::GetInstance().GetSpace()) {}
 
     void CRVRGroundColorSensor::SetRobot(CComposableEntity &c_entity)
@@ -33,6 +35,20 @@ namespace argos
         try
         {
             CCI_RVRGroundColorSensor::Init(t_tree);
+            // noise handling
+            Real fNoiseLevel = 0.0f;
+            GetNodeAttributeOrDefault(t_tree, "noise_level", fNoiseLevel, fNoiseLevel);
+            if (fNoiseLevel < 0.0f)
+            {
+                THROW_ARGOSEXCEPTION("Can't specify a negative value for the noise level"
+                                     << " of the rvr color sensor");
+            }
+            else if (fNoiseLevel > 0.0f)
+            {
+                m_bAddNoise = true;
+                m_cNoiseRange.Set(-fNoiseLevel, fNoiseLevel);
+                m_pcRNG = CRandom::CreateRNG("argos");
+            }
         }
         catch (CARGoSException &ex)
         {
@@ -55,8 +71,14 @@ namespace argos
         cSensorPos = m_pcGroundSensorEntity->GetSensor(0).Offset;
         cSensorPos.Rotate(cRotZ);
         cSensorPos += cCenterPos;
-        const CColor &cColor = m_pcFloorEntity->GetColorAtPoint(cSensorPos.GetX(),
-                                                                cSensorPos.GetY());
+        CColor cColor = m_pcFloorEntity->GetColorAtPoint(cSensorPos.GetX(),
+                                                         cSensorPos.GetY());
+        if (m_bAddNoise)
+        {
+            cColor.SetRed(cColor.GetRed() + m_pcRNG->Uniform(m_cNoiseRange));
+            cColor.SetGreen(cColor.GetGreen() + m_pcRNG->Uniform(m_cNoiseRange));
+            cColor.SetBlue(cColor.GetBlue() + m_pcRNG->Uniform(m_cNoiseRange));
+        }
         m_sColor = cColor;
     }
 

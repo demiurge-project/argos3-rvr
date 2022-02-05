@@ -29,7 +29,7 @@ namespace argos
         if (fNoiseLevel < 0.0f)
         {
             THROW_ARGOSEXCEPTION("Can't specify a negative value for the noise level"
-                                 << " of the rvr proximity sensor");
+                                 << " of the rvr IMU sensor");
         }
         else if (fNoiseLevel > 0.0f)
         {

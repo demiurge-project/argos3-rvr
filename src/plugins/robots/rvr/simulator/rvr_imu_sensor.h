@@ -39,6 +39,15 @@ namespace argos
         /** Reference to quaternion sensor equipped entity associated to this sensor */
         //CRVRIMUEquippedEntity *m_pcImuEntity;
 
+        /** Whether to add noise or not */
+        bool m_bAddNoise;
+
+        /** Random number generator */
+        CRandom::CRNG *m_pcRNG;
+
+        /** Noise range */
+        CRange<Real> m_cNoiseRange;
+
         /** Reference to the embodied entity */
         CEmbodiedEntity *m_pcEmbodiedEntity;
     };

@@ -14,7 +14,7 @@ namespace argos
     /****************************************/
     /****************************************/
 
-    CRVRIMUSensor::CRVRIMUSensor()
+    CRVRIMUSensor::CRVRIMUSensor() : m_bAddNoise(false), m_pcRNG(NULL)
     {
     }
 
@@ -24,6 +24,19 @@ namespace argos
     void CRVRIMUSensor::Init(TConfigurationNode &t_tree)
     {
         CCI_RVRIMUSensor::Init(t_tree);
+        Real fNoiseLevel = 0.0f;
+        GetNodeAttributeOrDefault(t_tree, "noise_level", fNoiseLevel, fNoiseLevel);
+        if (fNoiseLevel < 0.0f)
+        {
+            THROW_ARGOSEXCEPTION("Can't specify a negative value for the noise level"
+                                 << " of the rvr proximity sensor");
+        }
+        else if (fNoiseLevel > 0.0f)
+        {
+            m_bAddNoise = true;
+            m_cNoiseRange.Set(-fNoiseLevel, fNoiseLevel);
+            m_pcRNG = CRandom::CreateRNG("argos");
+        }
     }
 
     /****************************************/
@@ -52,6 +65,12 @@ namespace argos
         m_sReading.Pitch = cOrientationX;
         m_sReading.Roll = cOrientationY;
         m_sReading.Yaw = cOrientationZ;
+        if (m_bAddNoise)
+        {
+            m_sReading.Pitch += CRadians(m_pcRNG->Uniform(m_cNoiseRange));
+            m_sReading.Roll += CRadians(m_pcRNG->Uniform(m_cNoiseRange));
+            m_sReading.Yaw += CRadians(m_pcRNG->Uniform(m_cNoiseRange));
+        }
     }
 
     /****************************************/

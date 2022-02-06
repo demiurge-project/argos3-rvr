@@ -6,10 +6,11 @@
 #ifndef RVR_VELOCITY_SENSOR_H
 #define RVR_VELOCITY_SENSOR_H
 
-namespace argos
-{
+namespace argos {
     class CRVRVelocitySensor;
+
     class CEmbodiedEntity;
+
     class CWheeledEntity;
 }
 
@@ -19,29 +20,30 @@ namespace argos
 #include <argos3/core/simulator/space/space.h>
 #include <argos3/core/simulator/sensor.h>
 
-namespace argos
-{
+namespace argos {
 
     class CRVRVelocitySensor : public CSimulatedSensor,
-                               public CCI_RVRVelocitySensor
-    {
+                               public CCI_RVRVelocitySensor {
 
     public:
         CRVRVelocitySensor();
 
-        virtual ~CRVRVelocitySensor() {}
+        ~CRVRVelocitySensor() override = default;
 
-        virtual void SetRobot(CComposableEntity &c_entity);
-        virtual void Init(TConfigurationNode &t_tree);
-        virtual void Update();
-        virtual void Reset();
+        void SetRobot(CComposableEntity &c_entity) override;
+
+        void Init(TConfigurationNode &t_tree) override;
+
+        void Update() override;
+
+        void Reset() override;
 
     private:
         /** Reference to wheeled entity */
-        CWheeledEntity *m_pcWheeledEntity;
+        CWheeledEntity *m_pcWheeledEntity{};
 
         /** Reference to the embodied entity */
-        CEmbodiedEntity *m_pcEmbodiedEntity;
+        CEmbodiedEntity *m_pcEmbodiedEntity{};
     };
 
 }

@@ -5,8 +5,7 @@
 
 #include "rvr_velocity_sensor.h"
 
-namespace argos
-{
+namespace argos {
 
     /****************************************/
     /****************************************/
@@ -15,32 +14,27 @@ namespace argos
     /****************************************/
 
     CRVRVelocitySensor::CRVRVelocitySensor()
-    {
-    }
+    = default;
 
     /****************************************/
     /****************************************/
 
-    void CRVRVelocitySensor::Init(TConfigurationNode &t_tree)
-    {
+    void CRVRVelocitySensor::Init(TConfigurationNode &t_tree) {
         CCI_RVRVelocitySensor::Init(t_tree);
     }
 
     /****************************************/
     /****************************************/
 
-    void CRVRVelocitySensor::SetRobot(CComposableEntity &c_entity)
-    {
-        try
-        {
+    void CRVRVelocitySensor::SetRobot(CComposableEntity &c_entity) {
+        try {
             m_pcWheeledEntity = &(c_entity.GetComponent<CWheeledEntity>("wheels"));
             m_pcEmbodiedEntity = &(c_entity.GetComponent<CEmbodiedEntity>("body"));
             // immediately store inverse to compute it once
             // since only inverse will be used to compute relative rotation
             m_sInitialOrientation = m_pcEmbodiedEntity->GetOriginAnchor().Orientation.Inverse().Normalize();
         }
-        catch (CARGoSException &ex)
-        {
+        catch (CARGoSException &ex) {
             THROW_ARGOSEXCEPTION_NESTED("Can't set robot for the rvr velocity sensor", ex);
         }
     }
@@ -48,12 +42,12 @@ namespace argos
     /****************************************/
     /****************************************/
 
-    void CRVRVelocitySensor::Update()
-    {
+    void CRVRVelocitySensor::Update() {
         // get average wheel velocity as our robot velocity
         Real velocity = (m_pcWheeledEntity->GetWheelVelocity(0) + m_pcWheeledEntity->GetWheelVelocity(1)) / 2;
         // compute relative orientation
-        CQuaternion relativeOrientation = m_sInitialOrientation * m_pcEmbodiedEntity->GetOriginAnchor().Orientation.Normalize();
+        CQuaternion relativeOrientation =
+                m_sInitialOrientation * m_pcEmbodiedEntity->GetOriginAnchor().Orientation.Normalize();
         // convert to z angle
         CRadians cTmp1, cTmp2, cRotZ;
         relativeOrientation.ToEulerAngles(cRotZ, cTmp1, cTmp2);
@@ -67,8 +61,7 @@ namespace argos
     /****************************************/
     /****************************************/
 
-    void CRVRVelocitySensor::Reset()
-    {
+    void CRVRVelocitySensor::Reset() {
         m_sInitialOrientation = m_pcEmbodiedEntity->GetOriginAnchor().Orientation.Inverse();
     }
 

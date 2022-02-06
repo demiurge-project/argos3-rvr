@@ -63,7 +63,7 @@ namespace argos
     /**
        * Destructor
        */
-    virtual ~CCI_RVRIMUSensor() {}
+    ~CCI_RVRIMUSensor() override {}
 
     /**
        * Returns a single sensor reading.

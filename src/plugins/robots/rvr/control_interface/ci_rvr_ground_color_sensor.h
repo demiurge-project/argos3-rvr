@@ -27,7 +27,7 @@ namespace argos
         /**
          * Destructor
          */
-        virtual ~CCI_RVRGroundColorSensor() = default;
+        ~CCI_RVRGroundColorSensor() override = default;
 
         /**
          * Returns the detected color

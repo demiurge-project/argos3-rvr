@@ -29,7 +29,7 @@ namespace argos
         luaL_checktype(pt_lua_state, 1, LUA_TNUMBER);
         size_t unIdx = lua_tonumber(pt_lua_state, 1);
         /* Get reference to actuator */
-        CCI_RVRRGBLEDsActuator *pcAct = CLuaUtility::GetDeviceInstance<CCI_RVRRGBLEDsActuator>(pt_lua_state, "overo_leds");
+        auto *pcAct = CLuaUtility::GetDeviceInstance<CCI_RVRRGBLEDsActuator>(pt_lua_state, "overo_leds");
         if (unIdx < 1 || unIdx > 3)
         {
             return luaL_error(pt_lua_state, "passed index %d out of bounds [1,3]", unIdx);

@@ -45,6 +45,15 @@ namespace argos {
 
         /** Reference to the embodied entity */
         CEmbodiedEntity *m_pcEmbodiedEntity{};
+
+        /** Whether to add noise or not */
+        bool m_bAddNoise{};
+
+        /** Random number generator */
+        CRandom::CRNG *m_pcRNG{};
+
+        /** Noise range */
+        CRange<Real> m_cNoiseRange;
     };
 
 }

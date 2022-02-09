@@ -15,14 +15,23 @@ namespace argos {
     /****************************************/
     /****************************************/
 
-    CRVRAccelerometerSensor::CRVRAccelerometerSensor()
-    = default;
+    CRVRAccelerometerSensor::CRVRAccelerometerSensor() : m_bAddNoise(false), m_pcRNG(NULL) {};
 
     /****************************************/
     /****************************************/
 
     void CRVRAccelerometerSensor::Init(TConfigurationNode &t_tree) {
         CCI_RVRAccelerometerSensor::Init(t_tree);
+        Real fNoiseLevel = 0.0f;
+        GetNodeAttributeOrDefault(t_tree, "noise_level", fNoiseLevel, fNoiseLevel);
+        if (fNoiseLevel < 0.0f) {
+            THROW_ARGOSEXCEPTION("Can't specify a negative value for the noise level"
+                                         << " of the rvr accelerometer sensor");
+        } else if (fNoiseLevel > 0.0f) {
+            m_bAddNoise = true;
+            m_cNoiseRange.Set(-fNoiseLevel, fNoiseLevel);
+            m_pcRNG = CRandom::CreateRNG("argos");
+        }
     }
 
     /****************************************/
@@ -65,6 +74,11 @@ namespace argos {
         m_tReading.Acceleration = CVector3(xyAcceleration.GetX(), xyAcceleration.GetY(), G);
         // convert acceleration from m/s^2 to g
         m_tReading.Acceleration /= G;
+        if (m_bAddNoise) {
+            auto noise = CVector3(m_pcRNG->Uniform(m_cNoiseRange), m_pcRNG->Uniform(m_cNoiseRange),
+                                  m_pcRNG->Uniform(m_cNoiseRange));
+            m_tReading.Acceleration += noise;
+        }
         // update previous speed
         m_sPreviousVelocity = currentVelocity;
 

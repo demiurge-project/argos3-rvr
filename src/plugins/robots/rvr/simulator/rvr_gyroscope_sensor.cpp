@@ -15,14 +15,23 @@ namespace argos {
     /****************************************/
     /****************************************/
 
-    CRVRGyroscopeSensor::CRVRGyroscopeSensor()
-    = default;
+    CRVRGyroscopeSensor::CRVRGyroscopeSensor() : m_bAddNoise(false), m_pcRNG(NULL) {};
 
     /****************************************/
     /****************************************/
 
     void CRVRGyroscopeSensor::Init(TConfigurationNode &t_tree) {
         CCI_RVRGyroscopeSensor::Init(t_tree);
+        Real fNoiseLevel = 0.0f;
+        GetNodeAttributeOrDefault(t_tree, "noise_level", fNoiseLevel, fNoiseLevel);
+        if (fNoiseLevel < 0.0f) {
+            THROW_ARGOSEXCEPTION("Can't specify a negative value for the noise level"
+                                         << " of the rvr gyroscope sensor");
+        } else if (fNoiseLevel > 0.0f) {
+            m_bAddNoise = true;
+            m_cNoiseRange.Set(-fNoiseLevel, fNoiseLevel);
+            m_pcRNG = CRandom::CreateRNG("argos");
+        }
     }
 
     /****************************************/
@@ -56,6 +65,11 @@ namespace argos {
         auto inverseDt = CPhysicsEngine::GetInverseSimulationClockTick();
         // compute speed along all axis
         auto angularSpeed = CVector3(cRotX.GetValue(), cRotY.GetValue(), cRotZ.GetValue()) * inverseDt;
+        if (m_bAddNoise) {
+            auto noise = CVector3(m_pcRNG->Uniform(m_cNoiseRange), m_pcRNG->Uniform(m_cNoiseRange),
+                                  m_pcRNG->Uniform(m_cNoiseRange));
+            angularSpeed += noise;
+        }
         // write reading
         m_tReading.AngularVelocity = angularSpeed;
         // update previous position

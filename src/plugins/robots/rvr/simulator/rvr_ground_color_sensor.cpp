@@ -12,8 +12,7 @@
 
 #include "rvr_ground_color_sensor.h"
 
-namespace argos
-{
+namespace argos {
 
     CRVRGroundColorSensor::CRVRGroundColorSensor() : m_pcEmbodiedEntity(NULL),
                                                      m_pcFloorEntity(NULL),
@@ -22,42 +21,37 @@ namespace argos
                                                      m_bAddNoise(false),
                                                      m_cSpace(CSimulator::GetInstance().GetSpace()) {}
 
-    void CRVRGroundColorSensor::SetRobot(CComposableEntity &c_entity)
-    {
+    void CRVRGroundColorSensor::SetRobot(CComposableEntity &c_entity) {
         m_pcEmbodiedEntity = &(c_entity.GetComponent<CEmbodiedEntity>("body"));
         m_pcGroundSensorEntity = &(c_entity.GetComponent<CGroundSensorEquippedEntity>("ground_sensors"));
         m_pcGroundSensorEntity->Enable();
         m_pcFloorEntity = &m_cSpace.GetFloorEntity();
     }
 
-    void CRVRGroundColorSensor::Init(TConfigurationNode &t_tree)
-    {
-        try
-        {
+    void CRVRGroundColorSensor::Init(TConfigurationNode &t_tree) {
+        try {
             CCI_RVRGroundColorSensor::Init(t_tree);
             // noise handling
-            Real fNoiseLevel = 0.0f;
-            GetNodeAttributeOrDefault(t_tree, "noise_level", fNoiseLevel, fNoiseLevel);
-            if (fNoiseLevel < 0.0f)
-            {
-                THROW_ARGOSEXCEPTION("Can't specify a negative value for the noise level"
-                                     << " of the rvr color sensor");
-            }
-            else if (fNoiseLevel > 0.0f)
-            {
+            Real fNoiseMean = 0.0f;
+            Real fNoiseStd = 0.0f;
+            GetNodeAttributeOrDefault(t_tree, "noise_mean", fNoiseMean, fNoiseMean);
+            GetNodeAttributeOrDefault(t_tree, "noise_std", fNoiseStd, fNoiseStd);
+            if (fNoiseStd < 0.0f) {
+                THROW_ARGOSEXCEPTION("Can't specify a negative value for the deviation"
+                                             << " of the rvr color sensor");
+            } else if (fNoiseStd > 0.0f) {
                 m_bAddNoise = true;
-                m_cNoiseRange.Set(-fNoiseLevel, fNoiseLevel);
+                m_cNoiseMean = fNoiseMean;
+                m_cNoiseStd = fNoiseStd;
                 m_pcRNG = CRandom::CreateRNG("argos");
             }
         }
-        catch (CARGoSException &ex)
-        {
+        catch (CARGoSException &ex) {
             THROW_ARGOSEXCEPTION_NESTED("Initialization error in ground color sensor", ex);
         }
     }
 
-    void CRVRGroundColorSensor::Update()
-    {
+    void CRVRGroundColorSensor::Update() {
         /* Get Robot position and orientation */
         const CVector3 &cEntityPos = m_pcEmbodiedEntity->GetOriginAnchor().Position;
         const CQuaternion &cEntityRot = m_pcEmbodiedEntity->GetOriginAnchor().Orientation;
@@ -73,17 +67,15 @@ namespace argos
         cSensorPos += cCenterPos;
         CColor cColor = m_pcFloorEntity->GetColorAtPoint(cSensorPos.GetX(),
                                                          cSensorPos.GetY());
-        if (m_bAddNoise)
-        {
-            cColor.SetRed(cColor.GetRed() + m_pcRNG->Uniform(m_cNoiseRange));
-            cColor.SetGreen(cColor.GetGreen() + m_pcRNG->Uniform(m_cNoiseRange));
-            cColor.SetBlue(cColor.GetBlue() + m_pcRNG->Uniform(m_cNoiseRange));
+        if (m_bAddNoise) {
+            cColor.SetRed(cColor.GetRed() + Round(m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean)));
+            cColor.SetGreen(cColor.GetGreen() + Round(m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean)));
+            cColor.SetBlue(cColor.GetBlue() + Round(m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean)));
         }
         m_sColor = cColor;
     }
 
-    void CRVRGroundColorSensor::Reset()
-    {
+    void CRVRGroundColorSensor::Reset() {
         // By default, sensor sees black
         m_sColor = CColor::BLACK;
     }

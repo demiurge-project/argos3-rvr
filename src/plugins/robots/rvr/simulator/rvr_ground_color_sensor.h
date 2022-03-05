@@ -7,10 +7,11 @@
 #ifndef RVR_GROUND_COLOR_SENSOR_H
 #define RVR_GROUND_COLOR_SENSOR_H
 
-namespace argos
-{
+namespace argos {
     class CRVRGroundColorSensor;
+
     class CGroundSensorEquippedEntity;
+
     class CFloorEntity;
 } // namespace argos
 
@@ -20,17 +21,20 @@ namespace argos
 #include <argos3/core/simulator/space/space.h>
 #include <argos3/core/simulator/sensor.h>
 
-namespace argos
-{
+namespace argos {
     class CRVRGroundColorSensor : public CSimulatedSensor,
-                                  public CCI_RVRGroundColorSensor
-    {
+                                  public CCI_RVRGroundColorSensor {
     public:
         CRVRGroundColorSensor();
+
         virtual ~CRVRGroundColorSensor() {}
+
         virtual void SetRobot(CComposableEntity &c_entity);
+
         virtual void Init(TConfigurationNode &t_tree);
+
         virtual void Update();
+
         virtual void Reset();
 
     protected:
@@ -49,8 +53,11 @@ namespace argos
         /** Whether to add noise or not */
         bool m_bAddNoise;
 
-        /** Noise range */
-        CRange<Real> m_cNoiseRange;
+        /** Noise mean */
+        Real m_cNoiseMean;
+
+        /** Noise standard deviation */
+        Real m_cNoiseStd;
 
         /** Reference to the space */
         CSpace &m_cSpace;

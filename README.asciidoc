@@ -20,6 +20,7 @@ This currently implements :
 * RGB LEDs actuator
 * Proximity sensors
 * LIDAR
+* IMU sensor
 
 This was tested and developed under ARGoS 3 beta 48, with Ubuntu 20.04.
 

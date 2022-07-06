@@ -1,10 +1,10 @@
 /**
  * @file <argos3/plugins/robots/rvr/control_interface/rvr_ground_color_sensor.h>
- * 
+ *
  * @brief This is an interface that represents the RVR ground color sensor.
- * 
+ *
  * Its single color sensor, placed under the chassis, allows color detection.
- * 
+ *
  * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
 
@@ -29,25 +29,35 @@ namespace argos
          */
         ~CCI_RVRGroundColorSensor() override = default;
 
+        struct SReading
+        {
+            CColor Color;
+            SReading() : Color(0, 0, 0) {}
+            SReading(const SReading &s_reading) : Color(s_reading.Color) {}
+            SReading(const CColor &c_color) : Color(c_color) {}
+
+            void Reset() { Color.Set(0, 0, 0); }
+        };
+
         /**
          * Returns the detected color
          */
-        inline const CColor &GetReading() const
+        inline const SReading &GetReading() const
         {
-            return m_sColor;
+            return m_sReading;
         }
 
 #ifdef ARGOS_WITH_LUA
         /**
-       *
-       * @param pt_lua_state
-       */
+         *
+         * @param pt_lua_state
+         */
         virtual void CreateLuaState(lua_State *pt_lua_state);
 
         /**
-       *
-       * @param pt_lua_state
-       */
+         *
+         * @param pt_lua_state
+         */
         virtual void ReadingsToLuaState(lua_State *pt_lua_state);
 #endif
 
@@ -55,7 +65,7 @@ namespace argos
         /**
          * Color detected by the sensor
          */
-        CColor m_sColor;
+        SReading m_sReading;
     };
 } // namespace argos
 

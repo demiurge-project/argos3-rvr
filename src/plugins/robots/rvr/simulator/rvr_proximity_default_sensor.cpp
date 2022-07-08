@@ -41,17 +41,20 @@ namespace argos
             /* Show rays? */
             GetNodeAttributeOrDefault(t_tree, "show_rays", m_bShowRays, m_bShowRays);
             /* Parse noise level */
-            Real fNoiseLevel = 0.0f;
-            GetNodeAttributeOrDefault(t_tree, "noise_level", fNoiseLevel, fNoiseLevel);
-            if (fNoiseLevel < 0.0f)
+            Real fNoiseMean = 0.0f;
+            Real fNoiseStd = 0.0f;
+            GetNodeAttributeOrDefault(t_tree, "noise_mean", fNoiseMean, fNoiseMean);
+            GetNodeAttributeOrDefault(t_tree, "noise_std", fNoiseStd, fNoiseStd);
+            if (fNoiseStd < 0.0f)
             {
-                THROW_ARGOSEXCEPTION("Can't specify a negative value for the noise level"
+                THROW_ARGOSEXCEPTION("Can't specify a negative value for the deviation"
                                      << " of the rvr proximity sensor");
             }
-            else if (fNoiseLevel > 0.0f)
+            else if (fNoiseStd > 0.0f)
             {
                 m_bAddNoise = true;
-                m_cNoiseRange.Set(-fNoiseLevel, fNoiseLevel);
+                m_cNoiseMean = fNoiseMean;
+                m_cNoiseStd = fNoiseStd;
                 m_pcRNG = CRandom::CreateRNG("argos");
             }
             m_tReadings.resize(8); // take only the first 8 sensors which is the sensor ring
@@ -129,7 +132,7 @@ namespace argos
             /* Apply noise to the sensor */
             if (m_bAddNoise)
             {
-                m_tReadings[i].Value += m_pcRNG->Uniform(m_cNoiseRange);
+                m_tReadings[i].Value += m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean);
             }
             /* Trunc the reading between 0 and 1 */
             UNIT.TruncValue(m_tReadings[i].Value);
@@ -218,17 +221,17 @@ namespace argos
                     "      <my_controller/>\n"
                     "      ...\n"
                     "   <controllers>\n\n"
-                    "It is possible to add uniform noise to the sensors, thus matching the\n"
+                    "It is possible to add Gaussian noise to the sensors, thus matching the\n"
                     "characteristics of a real robot better. This can be done with the attribute\n"
-                    "\"noise_level\", whose allowed range is in [-1,1] and is added to the calculated\n"
-                    "reading..\n\n"
+                    "\"noise_mean\" and \"noise_std\", and is added to the calculated\n"
+                    "reading.\n\n"
                     "   <controllers>\n"
                     "      ...\n"
                     "      <my_controller>\n"
                     "         ...\n"
                     "         <sensors>\n"
                     "            ...\n"
-                    "            <rvr_proximity implementation=\"default\" noise_level=\"0.1\"/>\n"
+                    "            <rvr_proximity implementation=\"default\" noise_mean=\"0\" noise_std=\"0.2\"/>\n"
                     "            ...\n"
                     "         <sensors/>\n"
                     "         ...\n"

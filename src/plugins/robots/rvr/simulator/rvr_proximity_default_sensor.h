@@ -36,16 +36,16 @@ namespace argos
         virtual void Reset();
 
         /**
-       * Calculates the proximity reading when the closest occluding
-       * object is located as the given distance.
-       *
-       * @param f_distance The distance of the closest occluding
-       * object in meters
-       *
-       * @returns A value in the range [0:1], where 0 means that the
-       * object is too far to be sensed, and 1 means the object is so
-       * close that it saturates the sensor.
-       */
+         * Calculates the proximity reading when the closest occluding
+         * object is located as the given distance.
+         *
+         * @param f_distance The distance of the closest occluding
+         * object in meters
+         *
+         * @returns A value in the range [0:1], where 0 means that the
+         * object is too far to be sensed, and 1 means the object is so
+         * close that it saturates the sensor.
+         */
         virtual Real CalculateReading(Real f_distance);
 
     private:
@@ -67,8 +67,11 @@ namespace argos
         /** Whether to add noise or not */
         bool m_bAddNoise;
 
-        /** Noise range */
-        CRange<Real> m_cNoiseRange;
+        /** Noise mean */
+        Real m_cNoiseMean;
+
+        /** Noise standard deviation */
+        Real m_cNoiseStd;
 
         /** Reference to the space */
         CSpace &m_cSpace;

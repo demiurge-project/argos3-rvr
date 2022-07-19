@@ -37,9 +37,18 @@ namespace argos
 
     /** Proximity sensors */
     const Real CRVREntity::PROXIMITY_SENSOR_RING_ELEVATION = 0.032f;
-    const Real CRVREntity::PROXIMITY_SENSOR_RING_RADIUS = CRVREntity::BODY_LENGTH / 2 + 0.001;
+    const Real CRVREntity::PROXIMITY_SENSOR_RING_RADIUS = 0.286f / 2;
     const CRadians CRVREntity::PROXIMITY_SENSOR_RING_START_ANGLE = CRadians((ARGOS_PI / 8.0f) * 0.5f);
     const Real CRVREntity::PROXIMITY_SENSOR_RING_RANGE = 2.0f;
+    const CRadians CRVREntity::PROXIMITY_SENSOR_ANGLES[8] = {
+        CRadians::PI / 6.0f,
+        CRadians::PI / 3.0f,
+        CRadians::PI_OVER_TWO,
+        CRadians::PI * 0.75f,
+        CRadians::PI * 1.25f,
+        CRadians::PI * 1.5f,
+        CRadians::PI * 1.667f,
+        CRadians::PI * 1.833f};
 
     /** Lidar */
     const Real CRVREntity::LIDAR_ELEVATION = 0.04f;
@@ -122,13 +131,29 @@ namespace argos
                 new CProximitySensorEquippedEntity(this,
                                                    "proximity_0");
             AddComponent(*m_pcProximitySensorEquippedEntity);
-            m_pcProximitySensorEquippedEntity->AddSensorRing(
-                CVector3(0.0f, 0.0f, PROXIMITY_SENSOR_RING_ELEVATION),
-                PROXIMITY_SENSOR_RING_RADIUS,
-                PROXIMITY_SENSOR_RING_START_ANGLE,
-                PROXIMITY_SENSOR_RING_RANGE,
-                8,
-                m_pcEmbodiedEntity->GetOriginAnchor());
+            // add each proximity sensor
+            CRadians cAngle;
+            CVector3 cOff, cDir;
+            CVector3 c_center = CVector3(0.0f, 0.0f, PROXIMITY_SENSOR_RING_ELEVATION);
+            for (int i = 0; i < 8; ++i)
+            {
+                cAngle = PROXIMITY_SENSOR_ANGLES[i];
+                // cAngle = CRadians(0.0f);
+                cAngle.SignedNormalize();
+                cOff.Set(PROXIMITY_SENSOR_RING_RADIUS, 0.0f, 0.0f);
+                cOff.RotateZ(cAngle);
+                cOff += c_center;
+                cDir.Set(PROXIMITY_SENSOR_RING_RANGE, 0.0f, 0.0f);
+                cDir.RotateZ(cAngle);
+                m_pcProximitySensorEquippedEntity->AddSensor(cOff, cDir, PROXIMITY_SENSOR_RING_RANGE, m_pcEmbodiedEntity->GetOriginAnchor());
+            }
+            // m_pcProximitySensorEquippedEntity->AddSensorRing(
+            //     CVector3(0.0f, 0.0f, PROXIMITY_SENSOR_RING_ELEVATION),
+            //     PROXIMITY_SENSOR_RING_RADIUS,
+            //     PROXIMITY_SENSOR_RING_START_ANGLE,
+            //     PROXIMITY_SENSOR_RING_RANGE,
+            //     8,
+            //     m_pcEmbodiedEntity->GetOriginAnchor());
             m_pcProximitySensorEquippedEntity->AddSensorRing(CVector3(0.0f, 0.0f, LIDAR_ELEVATION),
                                                              LIDAR_RADIUS,
                                                              LIDAR_START_ANGLE,
@@ -211,13 +236,29 @@ namespace argos
                 new CProximitySensorEquippedEntity(this,
                                                    "proximity_0");
             AddComponent(*m_pcProximitySensorEquippedEntity);
-            m_pcProximitySensorEquippedEntity->AddSensorRing(
-                CVector3(0.0f, 0.0f, PROXIMITY_SENSOR_RING_ELEVATION),
-                PROXIMITY_SENSOR_RING_RADIUS,
-                PROXIMITY_SENSOR_RING_START_ANGLE,
-                PROXIMITY_SENSOR_RING_RANGE,
-                8,
-                m_pcEmbodiedEntity->GetOriginAnchor());
+            // add each proximity sensor
+            CRadians cAngle;
+            CVector3 cOff, cDir;
+            CVector3 c_center = CVector3(0.0f, 0.0f, PROXIMITY_SENSOR_RING_ELEVATION);
+            for (int i = 0; i < 8; ++i)
+            {
+                cAngle = PROXIMITY_SENSOR_ANGLES[i];
+                // cAngle = CRadians(0.0f);
+                cAngle.SignedNormalize();
+                cOff.Set(PROXIMITY_SENSOR_RING_RADIUS, 0.0f, 0.0f);
+                cOff.RotateZ(cAngle);
+                cOff += c_center;
+                cDir.Set(PROXIMITY_SENSOR_RING_RANGE, 0.0f, 0.0f);
+                cDir.RotateZ(cAngle);
+                m_pcProximitySensorEquippedEntity->AddSensor(cOff, cDir, PROXIMITY_SENSOR_RING_RANGE, m_pcEmbodiedEntity->GetOriginAnchor());
+            }
+            // m_pcProximitySensorEquippedEntity->AddSensorRing(
+            //     CVector3(0.0f, 0.0f, PROXIMITY_SENSOR_RING_ELEVATION),
+            //     PROXIMITY_SENSOR_RING_RADIUS,
+            //     PROXIMITY_SENSOR_RING_START_ANGLE,
+            //     PROXIMITY_SENSOR_RING_RANGE,
+            //     8,
+            //     m_pcEmbodiedEntity->GetOriginAnchor());
 
             m_pcProximitySensorEquippedEntity->AddSensorRing(CVector3(0.0f, 0.0f, LIDAR_ELEVATION),
                                                              LIDAR_RADIUS,

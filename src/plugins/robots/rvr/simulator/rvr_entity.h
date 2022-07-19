@@ -116,6 +116,7 @@ namespace argos
         static const Real PROXIMITY_SENSOR_RING_RADIUS;
         static const CRadians PROXIMITY_SENSOR_RING_START_ANGLE;
         static const Real PROXIMITY_SENSOR_RING_RANGE;
+        static const CRadians PROXIMITY_SENSOR_ANGLES[8];
 
         /** Lidar properties */
         static const Real LIDAR_ELEVATION;

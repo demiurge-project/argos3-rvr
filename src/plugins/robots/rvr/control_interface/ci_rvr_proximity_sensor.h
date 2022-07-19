@@ -21,6 +21,11 @@
  *
  *              back
  *
+ * The sensors are placed with following angles, according to the front :
+ * - +-30 degrees (0 and 7)
+ * - +-60 degrees (1 and 6)
+ * - +-90 degrees (2 and 5)
+ * - +-135 degrees (3 and 4)
  * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
 
@@ -29,7 +34,7 @@
 
 namespace argos
 {
-    class CCI_RVRProximitySensor;
+  class CCI_RVRProximitySensor;
 }
 
 #include <argos3/core/utility/math/angles.h>
@@ -38,107 +43,107 @@ namespace argos
 
 namespace argos
 {
-    class CCI_RVRProximitySensor : public CCI_Sensor
+  class CCI_RVRProximitySensor : public CCI_Sensor
+  {
+
+  public:
+    /**
+     * Single sensor reading
+     */
+    struct SReading
     {
-
-    public:
-        /**
-       * Single sensor reading
+      /**
+       * Value of the reading
        */
-        struct SReading
-        {
-            /**
-          * Value of the reading
-          */
-            Real Value;
+      Real Value;
 
-            /**
-          * Angle of the reading
-          */
-            CRadians Angle;
-
-            /**
-          * Empty constructor
-          */
-            SReading() : Value(0.0f) {}
-
-            /**
-          * Filled constructor
-          *
-          * @param f_value the value of the reading
-          *
-          * @param c_angle the angle of the reading
-          */
-            SReading(Real f_value, const CRadians &c_angle) : Value(f_value), Angle(c_angle) {}
-        };
-
-        /**
-       * Sensor ring readings
+      /**
+       * Angle of the reading
        */
-        typedef std::vector<SReading> TReadings;
+      CRadians Angle;
 
-    public:
-        /**
-       * Constructor
+      /**
+       * Empty constructor
        */
-        CCI_RVRProximitySensor();
+      SReading() : Value(0.0f) {}
 
-        /**
-       * Destructor
-       */
-        virtual ~CCI_RVRProximitySensor() {}
-
-        /**
-       * Returns the sensor readings.
-       * @return The sensor readings
-       */
-        inline const TReadings &GetReadings() const
-        {
-            return m_tReadings;
-        }
-
-        /**
-       * Returns a single sensor reading.
-       * @param i The id of the wanted sensor
-       * @return The reading of the wanted sensor
-       */
-        inline const SReading &GetReading(UInt16 i) const
-        {
-            /* TODO: maybe an exception or smthg if i < 0 or i > 7 ? */
-            return m_tReadings[i];
-        }
-
-#ifdef ARGOS_WITH_LUA
-        /**
+      /**
+       * Filled constructor
        *
-       * @param pt_lua_state
-       */
-        virtual void CreateLuaState(lua_State *pt_lua_state);
-
-        /**
+       * @param f_value the value of the reading
        *
-       * @param pt_lua_state
+       * @param c_angle the angle of the reading
        */
-        virtual void ReadingsToLuaState(lua_State *pt_lua_state);
-#endif
-
-    protected:
-        /**
-       * Store the readings
-       */
-        TReadings m_tReadings;
+      SReading(Real f_value, const CRadians &c_angle) : Value(f_value), Angle(c_angle) {}
     };
 
     /**
-    * Redefine the "<<" operator for one reading
-    */
-    std::ostream &operator<<(std::ostream &c_os,
-                             const CCI_RVRProximitySensor::SReading &s_reading);
+     * Sensor ring readings
+     */
+    typedef std::vector<SReading> TReadings;
+
+  public:
+    /**
+     * Constructor
+     */
+    CCI_RVRProximitySensor();
 
     /**
-    * Redefine the "<<" operator for multiple readings
-    */
-    std::ostream &operator<<(std::ostream &c_os,
-                             const CCI_RVRProximitySensor::TReadings &t_readings);
+     * Destructor
+     */
+    virtual ~CCI_RVRProximitySensor() {}
+
+    /**
+     * Returns the sensor readings.
+     * @return The sensor readings
+     */
+    inline const TReadings &GetReadings() const
+    {
+      return m_tReadings;
+    }
+
+    /**
+     * Returns a single sensor reading.
+     * @param i The id of the wanted sensor
+     * @return The reading of the wanted sensor
+     */
+    inline const SReading &GetReading(UInt16 i) const
+    {
+      /* TODO: maybe an exception or smthg if i < 0 or i > 7 ? */
+      return m_tReadings[i];
+    }
+
+#ifdef ARGOS_WITH_LUA
+    /**
+     *
+     * @param pt_lua_state
+     */
+    virtual void CreateLuaState(lua_State *pt_lua_state);
+
+    /**
+     *
+     * @param pt_lua_state
+     */
+    virtual void ReadingsToLuaState(lua_State *pt_lua_state);
+#endif
+
+  protected:
+    /**
+     * Store the readings
+     */
+    TReadings m_tReadings;
+  };
+
+  /**
+   * Redefine the "<<" operator for one reading
+   */
+  std::ostream &operator<<(std::ostream &c_os,
+                           const CCI_RVRProximitySensor::SReading &s_reading);
+
+  /**
+   * Redefine the "<<" operator for multiple readings
+   */
+  std::ostream &operator<<(std::ostream &c_os,
+                           const CCI_RVRProximitySensor::TReadings &t_readings);
 }
 #endif

@@ -13,6 +13,7 @@
 #include <argos3/plugins/simulator/entities/led_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/light_sensor_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/proximity_sensor_equipped_entity.h>
+#include <argos3/plugins/simulator/entities/omnidirectional_camera_equipped_entity.h>
 #include "./rvr_quaternion_equipped_entity.h"
 #include "./rvr_quaternion_sensor.h"
 #include "./rvr_imu_equipped_entity.h"
@@ -31,9 +32,7 @@ namespace argos
     const Real CRVREntity::WHEEL_RADIUS = 0.057f;
     const Real CRVREntity::LENGTH_WHEEL_DISTANCE = 0.1539f;
     const Real CRVREntity::HALF_LENGTH_WHEEL_DISTANCE = LENGTH_WHEEL_DISTANCE * 0.5f;
-
-    /** LEDs */
-    const Real CRVREntity::LEDS_ELEVATION = BODY_HEIGHT * 0.3f;
+    ;
 
     /** Proximity sensors */
     const Real CRVREntity::PROXIMITY_SENSOR_RING_ELEVATION = 0.032f;
@@ -56,6 +55,9 @@ namespace argos
     const CRadians CRVREntity::LIDAR_START_ANGLE = CRadians((ARGOS_PI / 8.0f) * 0.5f);
     const Real CRVREntity::LIDAR_RANGE = 10.0f;
 
+    /** LEDs */
+    const Real CRVREntity::LEDS_ELEVATION = BODY_HEIGHT * 0.3f;
+    // const Real CRVREntity::LEDS_ELEVATION = BODY_HEIGHT + LIDAR_ELEVATION;
     /* Ground sensor */
     const Real CRVREntity::GROUND_SENSOR_OFFSET = 0.05f;
 
@@ -124,6 +126,9 @@ namespace argos
                 m_pcLEDEquippedEntity->AddLED(CVector3(LEDS_POSITIONS[i][0], LEDS_POSITIONS[i][1], LEDS_ELEVATION), m_pcEmbodiedEntity->GetOriginAnchor());
             }
 
+            // add a virtual led that has the sole purpose of signalling the robot position to others
+            m_pcLEDEquippedEntity->AddLED(CVector3(0.0f, 0.0f, BODY_HEIGHT + LIDAR_ELEVATION), m_pcEmbodiedEntity->GetOriginAnchor());
+
             m_pcLEDEquippedEntity->Disable();
 
             /* Proximity sensor equipped entity */
@@ -183,6 +188,11 @@ namespace argos
                                                          2.5f,
                                                          1,
                                                          m_pcEmbodiedEntity->GetOriginAnchor());
+
+            auto cAperture = CRadians();
+            cAperture.FromValueInDegrees(89.35f);
+            m_pcOmnidirectionalCameraEquippedEntity = new COmnidirectionalCameraEquippedEntity(this, "camera_0", cAperture, CVector3(0.0f, 0.0f, BODY_HEIGHT + LIDAR_ELEVATION));
+            AddComponent(*m_pcOmnidirectionalCameraEquippedEntity);
             /** Controllable entity
              * Must be added last for sensors and actuators to link correctly
              */
@@ -228,7 +238,8 @@ namespace argos
             {
                 m_pcLEDEquippedEntity->AddLED(CVector3(LEDS_POSITIONS[i][0], LEDS_POSITIONS[i][1], LEDS_ELEVATION), m_pcEmbodiedEntity->GetOriginAnchor());
             }
-
+            // add a virtual led that has the sole purpose of signalling the robot position to others
+            m_pcLEDEquippedEntity->AddLED(CVector3(0.0f, 0.0f, BODY_HEIGHT + LIDAR_ELEVATION), m_pcEmbodiedEntity->GetOriginAnchor());
             m_pcLEDEquippedEntity->Disable();
 
             /* Proximity sensor equipped entity */
@@ -288,6 +299,11 @@ namespace argos
                                                          2.5f,
                                                          1,
                                                          m_pcEmbodiedEntity->GetOriginAnchor());
+            auto cAperture = CRadians();
+            // aperture is atan2(10m, 0.114)
+            cAperture.FromValueInDegrees(89.35f);
+            m_pcOmnidirectionalCameraEquippedEntity = new COmnidirectionalCameraEquippedEntity(this, "camera_0", cAperture, CVector3(0.0f, 0.0f, BODY_HEIGHT + LIDAR_ELEVATION));
+            AddComponent(*m_pcOmnidirectionalCameraEquippedEntity);
             /** Controllable entity
              * Must be added last for sensors and actuators to link correctly
              */

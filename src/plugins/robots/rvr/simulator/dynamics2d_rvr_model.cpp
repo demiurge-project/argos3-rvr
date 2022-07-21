@@ -47,25 +47,36 @@ namespace argos
             cpv(RVR_WIDTH * 0.5f, RVR_BODY_LENGTH * 0.5f),
             cpv(RVR_WIDTH * 0.5f, -RVR_BODY_LENGTH * 0.5f)};
         // Create body
+        // m_ptBaseBody =
+        // cpSpaceAddBody(GetDynamics2DEngine().GetPhysicsSpace(),
+        //                cpBodyNew(m_fMass,
+        //                          cpMomentForPoly(m_fMass,
+        //                                          4,
+        //                                          tVertices,
+        //                                          cpvzero)));
         m_ptBaseBody =
             cpSpaceAddBody(GetDynamics2DEngine().GetPhysicsSpace(),
                            cpBodyNew(m_fMass,
-                                     cpMomentForPoly(m_fMass,
-                                                     4,
-                                                     tVertices,
-                                                     cpvzero)));
+                                     cpMomentForBox(m_fMass,
+                                                    RVR_WIDTH,
+                                                    RVR_BODY_LENGTH)));
         const CVector3 &cPosition = GetEmbodiedEntity().GetOriginAnchor().Position;
         m_ptBaseBody->p = cpv(cPosition.GetX(), cPosition.GetY());
         CRadians cXAngle, cYAngle, cZAngle;
         GetEmbodiedEntity().GetOriginAnchor().Orientation.ToEulerAngles(cZAngle, cYAngle, cXAngle);
         cpBodySetAngle(m_ptBaseBody, cZAngle.GetValue());
         // Create shape
+        // m_ptBaseShape =
+        //     cpSpaceAddShape(GetDynamics2DEngine().GetPhysicsSpace(),
+        //                     cpPolyShapeNew(m_ptBaseBody,
+        //                                    4,
+        //                                    tVertices,
+        //                                    cpvzero));
         m_ptBaseShape =
             cpSpaceAddShape(GetDynamics2DEngine().GetPhysicsSpace(),
-                            cpPolyShapeNew(m_ptBaseBody,
-                                           4,
-                                           tVertices,
-                                           cpvzero));
+                            cpBoxShapeNew(m_ptBaseBody,
+                                          RVR_WIDTH,
+                                          RVR_BODY_LENGTH));
         m_ptBaseShape->e = 0.0; // elasticity
         m_ptBaseShape->u = 0.7; // friction with the ground
 

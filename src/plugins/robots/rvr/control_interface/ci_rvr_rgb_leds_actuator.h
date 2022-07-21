@@ -17,6 +17,11 @@
  *          4         t
  *         back
  *
+ *
+ * Moreover, in order to simulate localization,
+ * a sixth virtual led is used to represent the robot's position,
+ * detected by the omnidirectional camera.
+ *
  * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
 
@@ -58,7 +63,8 @@ namespace argos
             FRONT_RIGHT = 1,
             LEFT_SIDE = 2,
             RIGHT_SIDE = 3,
-            BACK = 4
+            BACK = 4,
+            VIRTUAL = 5,
         };
 
     public:

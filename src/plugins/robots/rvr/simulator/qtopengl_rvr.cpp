@@ -46,6 +46,7 @@ namespace argos
         /* Place the body */
         glCallList(m_unBodyList);
 
+        glCallList(m_unLEDList);
         /* Place the LEDs */
         glPushMatrix();
         CLEDEquippedEntity &cLEDEquippedEntity = c_entity.GetLEDEquippedEntity();
@@ -56,7 +57,6 @@ namespace argos
             SetLEDMaterial(cColor.GetRed() / 255.0f,
                            cColor.GetGreen() / 255.0f,
                            cColor.GetBlue() / 255.0f);
-            glCallList(m_unLEDList);
             glTranslatef(-CRVREntity::LEDS_POSITIONS[i][0], -CRVREntity::LEDS_POSITIONS[i][1], -CRVREntity::LEDS_ELEVATION);
         }
         glPopMatrix();

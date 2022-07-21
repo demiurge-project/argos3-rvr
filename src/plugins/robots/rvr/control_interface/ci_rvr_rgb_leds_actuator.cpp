@@ -103,13 +103,18 @@ namespace argos
     }
 #endif
 
-    CCI_RVRRGBLEDsActuator::CCI_RVRRGBLEDsActuator() : m_tLEDSettings(5)
+    CCI_RVRRGBLEDsActuator::CCI_RVRRGBLEDsActuator() : m_tLEDSettings(6)
     {
     }
 
     void CCI_RVRRGBLEDsActuator::SetColor(size_t un_led_number,
                                           const CColor &c_color)
     {
+        // prevent changing the virtual led color
+        if (un_led_number >= m_tLEDSettings.size() - 1)
+        {
+            THROW_ARGOSEXCEPTION("LED number out of bounds. Changeing the virtual led color is not allowed.");
+        }
         m_tLEDSettings[un_led_number] = c_color;
     }
 

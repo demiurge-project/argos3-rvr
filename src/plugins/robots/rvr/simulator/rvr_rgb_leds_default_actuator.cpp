@@ -27,6 +27,7 @@ namespace argos
             GetNodeAttribute(t_tree, "medium", strMedium);
             m_pcLEDMedium = &CSimulator::GetInstance().GetMedium<CLEDMedium>(strMedium);
             m_pcLEDEquippedEntity->AddToMedium(*m_pcLEDMedium);
+            m_tLEDSettings[5] = CColor::RED;
         }
         catch (CARGoSException &e)
         {
@@ -42,7 +43,7 @@ namespace argos
 
     void CRVRRGBLEDsDefaultActuator::Update()
     {
-        for (uint i = 0; i < 5; ++i)
+        for (uint i = 0; i < 6; ++i)
         {
             m_pcLEDEquippedEntity->SetLEDColor(i, m_tLEDSettings[i]);
         }
@@ -54,6 +55,7 @@ namespace argos
         {
             m_tLEDSettings[i] = CColor::BLACK;
         }
+        m_tLEDSettings[5] = CColor::RED;
     }
 
     REGISTER_ACTUATOR(CRVRRGBLEDsDefaultActuator,

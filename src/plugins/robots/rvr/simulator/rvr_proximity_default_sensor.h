@@ -67,6 +67,9 @@ namespace argos
         /** Whether to add noise or not */
         bool m_bAddNoise;
 
+        /** Sensor range */
+        Real m_cSensorRange;
+
         /** Noise mean */
         Real m_cNoiseMean;
 

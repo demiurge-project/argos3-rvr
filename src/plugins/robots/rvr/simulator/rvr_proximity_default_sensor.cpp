@@ -17,7 +17,7 @@ namespace argos
     /****************************************/
     /****************************************/
 
-    static CRange<Real> UNIT(0.0f, 2.0f);
+    static CRange<Real> UNIT(0.0f, 1.0f);
 
     /****************************************/
     /****************************************/
@@ -26,6 +26,7 @@ namespace argos
                                                                m_bShowRays(false),
                                                                m_pcRNG(NULL),
                                                                m_bAddNoise(false),
+                                                               m_cSensorRange(2.0f),
                                                                m_cSpace(CSimulator::GetInstance().GetSpace())
     {
     }
@@ -56,6 +57,18 @@ namespace argos
                 m_cNoiseMean = fNoiseMean;
                 m_cNoiseStd = fNoiseStd;
                 m_pcRNG = CRandom::CreateRNG("argos");
+            }
+            /* Parse sensor range */
+            GetNodeAttributeOrDefault(t_tree, "range", m_cSensorRange, m_cSensorRange);
+            if (m_cSensorRange > 2.0f)
+            {
+                THROW_ARGOSEXCEPTION("Can't specify a value greater than 2.0 for the"
+                                     << " rvr proximity sensor range");
+            }
+            else if (m_cSensorRange < 0.0f)
+            {
+                THROW_ARGOSEXCEPTION("Can't specify a value less than 0.0 for the"
+                                     << " rvr proximity sensor range");
             }
             m_tReadings.resize(8); // take only the first 8 sensors which is the sensor ring
         }
@@ -134,8 +147,8 @@ namespace argos
             {
                 m_tReadings[i].Value += m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean);
             }
-            /* Trunc the reading between 0 and 1 */
-            UNIT.TruncValue(m_tReadings[i].Value);
+            /* Divide the value by the sensor range to scale it between 0 and 1 */
+            m_tReadings[i].Value /= m_cSensorRange;
         }
     }
 
@@ -156,19 +169,21 @@ namespace argos
     Real CRVRProximityDefaultSensor::CalculateReading(Real f_distance)
     {
         Real value = 0.0f;
-        if (0.05 <= f_distance && f_distance <= 2.0) // range of terabee : 0.05 - 2 meters
+        if (0.05 <= f_distance && f_distance <= m_cSensorRange) // default range of terabee : 0.05 - 2 meters
         {
             value = f_distance;
         }
         else
         {
+            // in order to get a value between 0 and 1, we need to divide the distance by the sensor range
+            // and not use -inf and inf
             if (f_distance <= 0.05)
             {
-                value = -std::numeric_limits<Real>::infinity();
+                value = 0.0f;
             }
             else
             {
-                value = std::numeric_limits<Real>::infinity();
+                value = m_cSensorRange;
             }
         }
         return value;
@@ -183,8 +198,8 @@ namespace argos
                     "1.0",
                     "The rvr proximity sensor",
                     "This sensor accesses a set of proximity sensors. The sensors all return a value\n"
-                    "between -inf and inf, where inf means nothing within range and -inf means an external\n"
-                    "object is touching the sensor. Values between 0.05 and 2.0 are the distance between\n"
+                    "between 0 and 1, where 1 means nothing within range and 0 means an external\n"
+                    "object is touching the sensor. Values between 0.05 and the sensor range 2.0 are the distance between\n"
                     "the occluding object and the sensor.\n"
                     "For usage, refer to [ci_rvr_proximity_sensor.h]\n\n"
                     "REQUIRED XML CONFIGURATION\n\n"
@@ -237,6 +252,22 @@ namespace argos
                     "         ...\n"
                     "      <my_controller/>\n"
                     "      ...\n"
-                    "   <controllers>\n",
+                    "   <controllers>\n"
+                    "It is possible to specify the sensor range. This can be done with the attribute\n"
+                    "\"range\". However, the potentially shown rays will be displayed with the maximum range of the sensor.\n\n"
+                    "   <controllers>\n"
+                    "      ...\n"
+                    "      <my_controller>\n"
+                    "         ...\n"
+                    "         <sensors>\n"
+                    "            ...\n"
+                    "            <rvr_proximity implementation=\"default\" range=\"1.5\"/>\n"
+                    "            ...\n"
+                    "         <sensors/>\n"
+                    "         ...\n"
+                    "      <my_controller/>\n"
+                    "      ...\n"
+                    "   <controllers>\n"
+                    "The range can not exceed the maximum range of the sensor, 2.0.\n\n",
                     "Usable");
 }

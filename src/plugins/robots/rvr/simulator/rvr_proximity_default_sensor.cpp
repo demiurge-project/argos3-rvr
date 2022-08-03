@@ -136,7 +136,7 @@ namespace argos
             else
             {
                 /* No intersection */
-                m_tReadings[i].Value = 0.0f;
+                m_tReadings[i].Value = 2.0f;
                 if (m_bShowRays)
                 {
                     m_pcControllableEntity->AddCheckedRay(false, cScanningRay);
@@ -148,7 +148,7 @@ namespace argos
                 m_tReadings[i].Value += m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean);
             }
             /* Divide the value by the sensor range to scale it between 0 and 1 */
-            m_tReadings[i].Value /= m_cSensorRange;
+            m_tReadings[i].Value /= 2.0f;
         }
     }
 
@@ -183,7 +183,7 @@ namespace argos
             }
             else
             {
-                value = m_cSensorRange;
+                value = 2.0f;
             }
         }
         return value;

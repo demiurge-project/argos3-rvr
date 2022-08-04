@@ -19,22 +19,22 @@ namespace argos
     CCI_RVRProximitySensor::CCI_RVRProximitySensor() : m_tReadings(8)
     {
         // Set the values for the proximity sensor angles
-        // 30 degrees
-        m_tReadings[0].Angle = CRadians::PI / 6.0f;
-        // 60 degrees
-        m_tReadings[1].Angle = CRadians::PI / 3.0f;
-        // 90 degrees
-        m_tReadings[2].Angle = CRadians::PI_OVER_TWO;
-        // 135 degrees
-        m_tReadings[3].Angle = CRadians::PI * 0.75f;
-        // 225 degrees (-135)
+        // +45 degrees
+        m_tReadings[0].Angle = CRadians::PI * 0.25f;
+        // 0 degrees
+        m_tReadings[1].Angle = CRadians(0.0f);
+        // -45 degrees = 315 degrees
+        m_tReadings[2].Angle = CRadians::PI * 1.75f;
+        // -90 degrees = 270 degrees
+        m_tReadings[3].Angle = CRadians::PI * 1.5f;
+        // -135 degrees = 225 degrees
         m_tReadings[4].Angle = CRadians::PI * 1.25f;
-        // 270 degrees (-90)
-        m_tReadings[5].Angle = CRadians::PI * 1.5f;
-        // 300 degrees (-60)
-        m_tReadings[6].Angle = CRadians::PI * 1.667f;
-        // 330 degrees (-30)
-        m_tReadings[7].Angle = CRadians::PI * 1.833f;
+        // 180 degrees
+        m_tReadings[5].Angle = CRadians::PI;
+        // 135 degrees
+        m_tReadings[6].Angle = CRadians::PI * 0.75f;
+        // 90 degrees
+        m_tReadings[7].Angle = CRadians::PI * 0.5f;
     }
 
     /****************************************/

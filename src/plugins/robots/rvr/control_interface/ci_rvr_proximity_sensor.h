@@ -12,20 +12,16 @@
  *
  *              front
  *
- *              0   7
- *     l     1         6    r
+ *                1
+ *     l      0        2    r
  *     e                    i
- *     f    2           5   g
+ *     f    7           3   g
  *     t                    h
- *             3     4      t
+ *            6        4    t
+ *                5
  *
  *              back
  *
- * The sensors are placed with following angles, according to the front :
- * - +-30 degrees (0 and 7)
- * - +-60 degrees (1 and 6)
- * - +-90 degrees (2 and 5)
- * - +-135 degrees (3 and 4)
  * @author Raffaele Todesco - <raffaele.todesco@ulb.be>
  */
 

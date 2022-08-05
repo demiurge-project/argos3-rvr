@@ -22,9 +22,15 @@
 
 namespace argos
 {
+    // since the upper part of the robot impacts its collisions,
+    // the robot dimensions are based on a square of side length 0.286f
+    // which is the radius of the upper part
+    // const Real CRVREntity::BODY_HEIGHT = 0.114f;
+    // const Real CRVREntity::BODY_LENGTH = 0.1839f;
+    // const Real CRVREntity::BODY_WIDTH = 0.2159f;
     const Real CRVREntity::BODY_HEIGHT = 0.114f;
-    const Real CRVREntity::BODY_LENGTH = 0.1839f;
-    const Real CRVREntity::BODY_WIDTH = 0.2159f;
+    const Real CRVREntity::BODY_LENGTH = 0.286f;
+    const Real CRVREntity::BODY_WIDTH = 0.286f;
 
     /** To be measured */
     const Real CRVREntity::INTERWHEEL_DISTANCE = 0.147f;

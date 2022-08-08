@@ -78,9 +78,18 @@ namespace argos
                                                          cSensorPos.GetY());
         if (m_bAddNoise)
         {
-            cColor.SetRed(cColor.GetRed() + Round(m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean)));
-            cColor.SetGreen(cColor.GetGreen() + Round(m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean)));
-            cColor.SetBlue(cColor.GetBlue() + Round(m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean)));
+            int red = (int) cColor.GetRed() + Round(m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean));
+            if (red > 255) red = 255;
+            if (red < 0) red = 0;
+            cColor.SetRed(red);
+            int green = (int) cColor.GetGreen() + Round(m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean));
+            if (green > 255) green = 255;
+            if (green < 0) green = 0;
+            cColor.SetGreen(green);
+            int blue = (int) cColor.GetBlue() + Round(m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean));
+            if (blue > 255) blue = 255;
+            if (blue < 0) blue = 0;
+            cColor.SetBlue(blue);
         }
         m_sReading.Color = cColor;
     }

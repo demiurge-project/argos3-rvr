@@ -46,14 +46,14 @@ namespace argos
     const CRadians CRVREntity::PROXIMITY_SENSOR_RING_START_ANGLE = CRadians((ARGOS_PI / 8.0f) * 0.5f);
     const Real CRVREntity::PROXIMITY_SENSOR_RING_RANGE = 2.0f;
     const CRadians CRVREntity::PROXIMITY_SENSOR_ANGLES[8] = {
-        CRadians::PI * 0.25f,
+        CRadians::PI_OVER_FOUR,
         CRadians(0.0f),
-        CRadians::PI * 1.75f,
-        CRadians::PI * 1.5f,
-        CRadians::PI * 1.25f,
-        CRadians::PI,
-        CRadians::PI * 0.75f,
-        CRadians::PI * 0.5f};
+        7.0f * CRadians::PI_OVER_FOUR,
+        6.0f * CRadians::PI_OVER_FOUR,
+        5.0f * CRadians::PI_OVER_FOUR,
+        4.0f * CRadians::PI_OVER_FOUR,
+        3.0f * CRadians::PI_OVER_FOUR,
+        2.0f * CRadians::PI_OVER_FOUR};
 
     /** Lidar */
     const Real CRVREntity::LIDAR_ELEVATION = 0.04f;

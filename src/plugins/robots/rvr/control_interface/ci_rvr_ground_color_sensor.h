@@ -32,11 +32,11 @@ namespace argos
         struct SReading
         {
             CColor Color;
-            SReading() : Color(0, 0, 0) {}
+            SReading() : Color(255, 255, 255) {}
             SReading(const SReading &s_reading) : Color(s_reading.Color) {}
             SReading(const CColor &c_color) : Color(c_color) {}
 
-            void Reset() { Color.Set(0, 0, 0); }
+            void Reset() { Color.Set(255, 255, 255); }
         };
 
         /**

@@ -196,7 +196,8 @@ namespace argos
                                                          m_pcEmbodiedEntity->GetOriginAnchor());
 
             auto cAperture = CRadians();
-            cAperture.FromValueInDegrees(89.35f);
+            // aperture = atan2(Desired Range, Height of cam), here 75cm range
+            cAperture.FromValueInDegrees(78.4);
             m_pcOmnidirectionalCameraEquippedEntity = new COmnidirectionalCameraEquippedEntity(this, "camera_0", cAperture, CVector3(0.0f, 0.0f, BODY_HEIGHT + LIDAR_ELEVATION));
             AddComponent(*m_pcOmnidirectionalCameraEquippedEntity);
             /** Controllable entity

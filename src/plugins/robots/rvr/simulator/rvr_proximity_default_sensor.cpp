@@ -145,9 +145,9 @@ namespace argos
             /* Apply noise to the sensor */
             if (m_bAddNoise)
             {
-                m_tReadings[i].Value += m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean);
+                if (m_tReadings[i].Value < std::numeric_limits<Real>::infinity())
+                    m_tReadings[i].Value += m_pcRNG->Gaussian(m_cNoiseStd, m_cNoiseMean);
             }
-            UNIT.TruncValue(m_tReadings[i].Value);
         }
     }
 
@@ -170,25 +170,19 @@ namespace argos
         Real value = 0.0f;
         if (0.05 <= f_distance && f_distance <= m_cSensorRange) // default range of terabee : 0.05 - 2 meters
         {
-            // value = exp(-dist)
-            value = Exp(-f_distance);
+            value = f_distance;
         }
-        // else
-        // {
-        //     // in order to get a value between 0 and 1, we need to divide the distance by the sensor range
-        //     // and not use -inf and inf
-        //     if (f_distance <= 0.05)
-        //     {
-        //         value = 0.0f;
-        //     }
-        //     else
-        //     {
-        //         value = 2.0f;
-        //     }
-        // }
-        // // convert from [0,2] to [1,0]
-        // return Abs(1.0f - value / 2.0f);
-        CRange<Real>(0.0f, 1.0f).TruncValue(value);
+        else
+        {
+            if (f_distance <= 0.05)
+            {
+                value = -std::numeric_limits<Real>::infinity();
+            }
+            else
+            {
+                value = std::numeric_limits<Real>::infinity();
+            }
+        }
         return value;
     }
 

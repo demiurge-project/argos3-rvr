@@ -14,10 +14,10 @@
 #include <argos3/plugins/simulator/entities/light_sensor_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/proximity_sensor_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/omnidirectional_camera_equipped_entity.h>
-#include "./rvr_quaternion_equipped_entity.h"
-#include "./rvr_quaternion_sensor.h"
-#include "./rvr_imu_equipped_entity.h"
-#include "./rvr_imu_sensor.h"
+#include <argos3/plugins/robots/rvr/simulator/rvr_quaternion_equipped_entity.h>
+#include <argos3/plugins/robots/rvr/simulator/rvr_quaternion_sensor.h>
+//#include <argos3/plugins/robots/rvr/simulator/rvr_imu_equipped_entity.h>
+#include <argos3/plugins/robots/rvr/simulator/rvr_imu_sensor.h>
 #include <argos3/core/utility/math/general.h>
 
 namespace argos

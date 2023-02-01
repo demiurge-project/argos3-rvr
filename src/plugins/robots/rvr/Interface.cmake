@@ -13,6 +13,7 @@ set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_CONTROLINTERFACE
         control_interface/ci_rvr_locator_sensor.h
         control_interface/ci_rvr_accelerometer_sensor.h
         control_interface/ci_rvr_gyroscope_sensor.h
+	control_interface/ci_rvr_colored_blob_omnidirectional_camera_sensor.h
         # Actuators
         control_interface/ci_rvr_rgb_leds_actuator.h
         control_interface/ci_rvr_wheels_actuator.h)
@@ -33,6 +34,7 @@ set(ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR
         control_interface/ci_rvr_locator_sensor.cpp
         control_interface/ci_rvr_accelerometer_sensor.cpp
         control_interface/ci_rvr_gyroscope_sensor.cpp
+	control_interface/ci_rvr_colored_blob_omnidirectional_camera_sensor.cpp
         # Actuators
         control_interface/ci_rvr_rgb_leds_actuator.cpp
         control_interface/ci_rvr_wheels_actuator.cpp)

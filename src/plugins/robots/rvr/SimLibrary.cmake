@@ -18,7 +18,8 @@ set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
         simulator/rvr_locator_sensor.h
         simulator/rvr_accelerometer_sensor.h
         simulator/rvr_gyroscope_sensor.h
-        simulator/rvr_ground_color_sensor.h)
+        simulator/rvr_ground_color_sensor.h
+	simulator/rvr_colored_blob_omnidirectional_camera_rotzonly_sensor.h)
 if (ARGOS_COMPILE_QTOPENGL)
     set(ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR
             ${ARGOS3_HEADERS_PLUGINS_ROBOTS_RVR_SIMULATOR}
@@ -49,7 +50,8 @@ set(ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR
         simulator/rvr_locator_sensor.cpp
         simulator/rvr_accelerometer_sensor.cpp
         simulator/rvr_gyroscope_sensor.cpp
-        simulator/rvr_ground_color_sensor.cpp)
+        simulator/rvr_ground_color_sensor.cpp
+	simulator/rvr_colored_blob_omnidirectional_camera_rotzonly_sensor.cpp)
 if (ARGOS_COMPILE_QTOPENGL)
     set(ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR
             ${ARGOS3_SOURCES_PLUGINS_ROBOTS_RVR}
